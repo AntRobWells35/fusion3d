@@ -7,6 +7,15 @@
 
 //using namespace std;
 
+struct QueueFamilyIndices {
+	int graphicsFamily = -1;
+
+	bool isComplete() {
+		return graphicsFamily >= 0;
+	}
+};
+
+
 class FusionApp
 {
 public:
@@ -24,6 +33,10 @@ private:
 	bool WinFull;
 	void CreateInstance();
 	VkInstance vInstance;
-	
+	void setupDebugCallback();
+	void PickDevice();
+	VkPhysicalDevice pDev;
+	bool isDeviceSuitable(VkPhysicalDevice device);
+	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 };
 
