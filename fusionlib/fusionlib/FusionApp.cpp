@@ -204,6 +204,7 @@ void FusionApp::InitVulkan() {
 	createSwapChain();
 	createImageViews();
 
+	
 
 
 }
@@ -514,9 +515,12 @@ void FusionApp::Run() {
 
 void FusionApp::RunApp()
 {
-
+	InitApp();
+	ResizeApp();
 	while (!glfwWindowShouldClose(Win)) {
 		glfwPollEvents();
+		UpdateApp();
+		RenderApp();
 	}
 
 }

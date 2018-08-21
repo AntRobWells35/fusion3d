@@ -29,7 +29,17 @@ public:
 	FusionApp(int winWidth, int winHeight, string title, bool fullScreen);
 	virtual ~FusionApp();
 	void Run();
+	virtual void InitApp() {};
+	virtual void UpdateApp() {};
+	virtual void RenderApp() {};
+	virtual void ResizeApp() {};
+	VkDevice GetDevice() {
+		return dev;
+	}
+	VkExtent2D GetSwapExtent() { return swapChainExtent; }
+
 private:
+	
 	void CleanUp();
 	void InitVulkan();
 	void RunApp();

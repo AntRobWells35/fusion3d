@@ -161,13 +161,25 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="fusehead.h" />
     <ClInclude Include="FusionApp.h" />
+    <ClInclude Include="GraphicsPipeline.h" />
+    <ClInclude Include="GraphNode.h" />
+    <ClInclude Include="GraphRenderer.h" />
+    <ClInclude Include="GraphScene.h" />
+    <ClInclude Include="MultiPassRenderer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="FusionApp.cpp" />
+    <ClCompile Include="GraphicsPipeline.cpp" />
+    <ClCompile Include="GraphNode.cpp" />
+    <ClCompile Include="GraphRenderer.cpp" />
+    <ClCompile Include="GraphScene.cpp" />
+    <ClCompile Include="MultiPassRenderer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
