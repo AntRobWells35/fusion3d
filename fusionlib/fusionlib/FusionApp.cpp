@@ -45,6 +45,13 @@ QueueFamilyIndices FusionApp::findQueueFamilies(VkPhysicalDevice device) {
 				indices.graphicsFamily = i;
 			}
 
+			VkBool32 presentSupport = false;
+			vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
+
+			if (queueFamily.queueCount > 0 && presentSupport) {
+				indices.presentFamily = i;
+			}
+
 			if (indices.isComplete()) {
 				break;
 			}
@@ -53,6 +60,7 @@ QueueFamilyIndices FusionApp::findQueueFamilies(VkPhysicalDevice device) {
 		}
 
 		return indices;
+	
 
 	}
 
@@ -186,9 +194,22 @@ void FusionApp::InitVulkan() {
 
 	CreateInstance();
 	setupDebugCallback();
+	createSurface();
 	PickDevice();
+	createLogicalDevice();
 
 
+
+}
+
+void FusionApp::createSurface() {
+
+	if (glfwCreateWindowSurface(vInstance,Win, nullptr, &surface) != VK_SUCCESS) {
+		throw std::runtime_error("failed to create window surface!");
+	}
+	else {
+		cout << "Successfully created surface." << endl;
+	}
 
 }
 
@@ -230,6 +251,54 @@ void FusionApp::PickDevice()
 
 }
 
+void FusionApp::createLogicalDevice() {
+	QueueFamilyIndices indices = findQueueFamilies(pDev);
+
+	std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+	std::set<int> uniqueQueueFamilies = { indices.graphicsFamily, indices.presentFamily };
+
+	float queuePriority = 1.0f;
+	for (int queueFamily : uniqueQueueFamilies) {
+		VkDeviceQueueCreateInfo queueCreateInfo = {};
+		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+		queueCreateInfo.queueFamilyIndex = queueFamily;
+		queueCreateInfo.queueCount = 1;
+		queueCreateInfo.pQueuePriorities = &queuePriority;
+		queueCreateInfos.push_back(queueCreateInfo);
+	}
+
+	VkPhysicalDeviceFeatures deviceFeatures = {};
+
+	VkDeviceCreateInfo createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+
+	createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
+	createInfo.pQueueCreateInfos = queueCreateInfos.data();
+
+	createInfo.pEnabledFeatures = &deviceFeatures;
+
+	createInfo.enabledExtensionCount = 0;
+
+	if (enableValidationLayers) {
+		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+		createInfo.ppEnabledLayerNames = validationLayers.data();
+	}
+	else {
+		createInfo.enabledLayerCount = 0;
+	}
+
+	if (vkCreateDevice(pDev, &createInfo, nullptr, &dev) != VK_SUCCESS) {
+		throw std::runtime_error("failed to create logical device!");
+	}
+	else {
+		cout << "Created Logical device." << endl;
+	}
+
+	vkGetDeviceQueue(dev, indices.graphicsFamily, 0, &graphicsQueue);
+	vkGetDeviceQueue(dev, indices.presentFamily, 0, &presentQueue);
+}
+
+
 void FusionApp::Run() {
 
 	glfwInit();
@@ -257,9 +326,13 @@ void FusionApp::RunApp()
 
 void FusionApp::CleanUp() {
 
+	vkDestroyDevice(dev, nullptr);
+
 	if (enableValidationLayers) {
 		DestroyDebugUtilsMessengerEXT(vInstance, callback, nullptr);
 	}
+
+	vkDestroySurfaceKHR(vInstance, surface, nullptr);
 
 	vkDestroyInstance(vInstance, nullptr);
 

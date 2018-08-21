@@ -9,13 +9,12 @@
 
 struct QueueFamilyIndices {
 	int graphicsFamily = -1;
+	int presentFamily = -1;
 
 	bool isComplete() {
-		return graphicsFamily >= 0;
+		return graphicsFamily >= 0 && presentFamily >= 0;
 	}
 };
-
-
 class FusionApp
 {
 public:
@@ -36,6 +35,12 @@ private:
 	void setupDebugCallback();
 	void PickDevice();
 	VkPhysicalDevice pDev;
+	VkDevice dev;
+	VkQueue graphicsQueue;
+	VkQueue presentQueue;
+	VkSurfaceKHR surface;
+	void createSurface();
+	void createLogicalDevice();
 	bool isDeviceSuitable(VkPhysicalDevice device);
 	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 };
