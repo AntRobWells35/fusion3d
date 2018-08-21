@@ -1,4 +1,2 @@
-﻿  stdafx.cpp
-c:\dev\git\fusion3d\fusionlib\fusionlib\stdafx.h(17): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  FusionApp.cpp
+﻿  FusionApp.cpp
   fusionlib.vcxproj -> C:\Dev\Git\fusion3d\fusionlib\x64\Debug\fusionlib.lib
