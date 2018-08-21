@@ -26,6 +26,12 @@
 *.a
 *.lib
 
+*db
+
+*.ipch
+*.idb
+*.pdb
+
 # Executables
 *.exe
 *.out
