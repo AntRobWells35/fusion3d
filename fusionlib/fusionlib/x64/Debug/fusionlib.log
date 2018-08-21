@@ -1,4 +1,3 @@
-﻿  stdafx.cpp
-c:\dev\git\fusion3d\fusionlib\fusionlib\stdafx.h(17): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  FusionApp.cpp
+﻿  FusionApp.cpp
+c:\dev\git\fusion3d\fusionlib\fusionlib\fusionapp.cpp(263): warning C4838: conversion from 'int' to 'uint32_t' requires a narrowing conversion
   fusionlib.vcxproj -> C:\Dev\Git\fusion3d\fusionlib\x64\Debug\fusionlib.lib
