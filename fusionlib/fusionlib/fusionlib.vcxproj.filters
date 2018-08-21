@@ -21,9 +21,18 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FusionApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fusehead.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FusionApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
