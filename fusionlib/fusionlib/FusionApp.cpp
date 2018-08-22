@@ -283,7 +283,7 @@ void FusionApp::createCommandPool() {
 		throw std::runtime_error("failed to create command pool!");
 	}
 	else {
-		cout << "Created commandpool" << endl;
+	
 	}
 
 
@@ -311,7 +311,7 @@ void FusionApp::createFrameBuffers()
 			throw std::runtime_error("failed to create framebuffer!");
 		}
 		else {
-			cout << "Created framebuffer" << endl;
+		
 		}
 
 		
@@ -366,7 +366,7 @@ void FusionApp::createRenderpass() {
 		throw std::runtime_error("failed to create render pass!");
 	}
 	else {
-		cout << "Created renderpass." << endl;
+		
 	}
 
 	
@@ -382,7 +382,7 @@ void FusionApp::createSurface() {
 		throw std::runtime_error("failed to create window surface!");
 	}
 	else {
-		cout << "Successfully created surface." << endl;
+	
 	}
 
 }
@@ -498,7 +498,7 @@ void FusionApp::createSwapChain() {
 	swapChainImageFormat = surfaceFormat.format;
 	swapChainExtent = extent;
 
-	cout << "Created swap-chain." << endl;
+	
 
 }
 
@@ -530,7 +530,7 @@ void FusionApp::createImageViews() {
 			throw std::runtime_error("failed to create image views!");
 		}
 		else {
-			cout << "Created imageviews." << endl;
+		
 		}
 	}
 }
@@ -596,7 +596,7 @@ void FusionApp::PickDevice()
 		throw std::runtime_error("failed to find a suitable GPU!");
 	}
 	else {
-		cout << "Found graphics device." << endl;
+	
 	}
 
 }
@@ -642,7 +642,7 @@ void FusionApp::createLogicalDevice() {
 		throw std::runtime_error("failed to create logical device!");
 	}
 	else {
-		cout << "Created logical device 2" << endl;
+	
 	}
 
 	vkGetDeviceQueue(dev, indices.graphicsFamily, 0, &graphicsQueue);
