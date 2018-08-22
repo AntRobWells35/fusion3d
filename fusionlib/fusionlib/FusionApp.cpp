@@ -10,6 +10,13 @@ const std::vector<const char*> deviceExtensions = {
 	VK_KHR_SWAPCHAIN_EXTENSION_NAME
 };
 
+std::vector<VkFramebuffer> swapChainFramebuffers;
+const int MAX_FRAMES_IN_FLIGHT = 2;
+std::vector<VkCommandBuffer> commandBuffers;
+std::vector<VkSemaphore> imageAvailableSemaphores;
+std::vector<VkSemaphore> renderFinishedSemaphores; 
+std::vector<VkFence> inFlightFences;
+size_t currentFrame = 0;
 #ifdef NDEBUG
 const bool enableValidationLayers = false;
 #else
@@ -21,6 +28,11 @@ VkDebugUtilsMessengerEXT callback;
 
 FusionApp::FusionApp() {
 
+}
+std::vector<VkFramebuffer> FusionApp::GetFrameBuffers()
+{
+
+	return swapChainFramebuffers;
 }
 
 FusionApp::FusionApp(int winWidth,int winHeight,string title,bool fullScreen)
@@ -203,8 +215,118 @@ void FusionApp::InitVulkan() {
 	createLogicalDevice();
 	createSwapChain();
 	createImageViews();
+	createRenderpass();
+	createFrameBuffers();
+	createCommandPool();
+	createSyncObjects();
+	
+
+
+}
+
+
+void FusionApp::createCommandPool() {
+
+	QueueFamilyIndices queueFamilyIndices = findQueueFamilies(pDev);
+
+	VkCommandPoolCreateInfo poolInfo = {};
+	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+	poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily;
+	poolInfo.flags = 0; // Optional
+
+	if (vkCreateCommandPool(dev, &poolInfo, nullptr, &commandPool) != VK_SUCCESS) {
+		throw std::runtime_error("failed to create command pool!");
+	}
+	else {
+		cout << "Created commandpool" << endl;
+	}
+
+
+}
+
+void FusionApp::createFrameBuffers()
+{
+	swapChainFramebuffers.resize(swapChainImageViews.size());
+
+	for (size_t i = 0; i < swapChainImageViews.size(); i++) {
+		VkImageView attachments[] = {
+			swapChainImageViews[i]
+		};
+
+		VkFramebufferCreateInfo framebufferInfo = {};
+		framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+		framebufferInfo.renderPass = renderPass;
+		framebufferInfo.attachmentCount = 1;
+		framebufferInfo.pAttachments = attachments;
+		framebufferInfo.width = swapChainExtent.width;
+		framebufferInfo.height = swapChainExtent.height;
+		framebufferInfo.layers = 1;
+
+		if (vkCreateFramebuffer(dev, &framebufferInfo, nullptr, &swapChainFramebuffers[i]) != VK_SUCCESS) {
+			throw std::runtime_error("failed to create framebuffer!");
+		}
+		else {
+			cout << "Created framebuffer" << endl;
+		}
+
+		
+	}
+
+
+}
+
+void FusionApp::createRenderpass() {
+
+	VkAttachmentDescription colorAttachment = {};
+	colorAttachment.format = swapChainImageFormat;
+	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+
+	colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+
+	colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+
+	colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+
+	VkAttachmentReference colorAttachmentRef = {};
+	colorAttachmentRef.attachment = 0;
+	colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+	VkSubpassDescription subpass = {};
+	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+
+	subpass.colorAttachmentCount = 1;
+	subpass.pColorAttachments = &colorAttachmentRef;
+
+	VkRenderPassCreateInfo renderPassInfo = {};
+	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+	renderPassInfo.attachmentCount = 1;
+	renderPassInfo.pAttachments = &colorAttachment;
+	renderPassInfo.subpassCount = 1;
+	renderPassInfo.pSubpasses = &subpass;
+
+	VkSubpassDependency dependency = {};
+	dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+	dependency.dstSubpass = 0;
+
+	dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+
+	renderPassInfo.dependencyCount = 1;
+	renderPassInfo.pDependencies = &dependency;
+
+	if (vkCreateRenderPass(dev, &renderPassInfo, nullptr, &renderPass) != VK_SUCCESS) {
+		throw std::runtime_error("failed to create render pass!");
+	}
+	else {
+		cout << "Created renderpass." << endl;
+	}
 
 	
+
+
 
 
 }
@@ -466,6 +588,9 @@ void FusionApp::createLogicalDevice() {
 	if (vkCreateDevice(pDev, &createInfo, nullptr, &dev) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create logical device!");
 	}
+	else {
+		cout << "Created logical device 2" << endl;
+	}
 
 	vkGetDeviceQueue(dev, indices.graphicsFamily, 0, &graphicsQueue);
 	vkGetDeviceQueue(dev, indices.presentFamily, 0, &presentQueue);
@@ -497,6 +622,9 @@ SwapChainSupportDetails FusionApp::querySwapChainSupport(VkPhysicalDevice device
 
 }
 
+VkSemaphore imageAvailableSemaphore;
+VkSemaphore renderFinishedSemaphore;
+
 void FusionApp::Run() {
 
 	glfwInit();
@@ -513,19 +641,102 @@ void FusionApp::Run() {
 
 }
 
+
+void FusionApp::createSyncObjects() {
+	imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
+	renderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
+	inFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
+
+	VkSemaphoreCreateInfo semaphoreInfo = {};
+	semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+
+	VkFenceCreateInfo fenceInfo = {};
+	fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+	fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+
+	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+		if (vkCreateSemaphore(dev, &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]) != VK_SUCCESS ||
+			vkCreateSemaphore(dev, &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]) != VK_SUCCESS ||
+			vkCreateFence(dev, &fenceInfo, nullptr, &inFlightFences[i]) != VK_SUCCESS) {
+			throw std::runtime_error("failed to create synchronization objects for a frame!");
+		}
+	}
+}
+
 void FusionApp::RunApp()
 {
 	InitApp();
 	ResizeApp();
 	while (!glfwWindowShouldClose(Win)) {
 		glfwPollEvents();
+
+		DrawFrame();
+
 		UpdateApp();
 		RenderApp();
 	}
 
 }
 
+void FusionApp::DrawFrame() {
+	vkWaitForFences(dev, 1, &inFlightFences[currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
+	vkResetFences(dev, 1, &inFlightFences[currentFrame]);
+
+	uint32_t imageIndex;
+	vkAcquireNextImageKHR(dev, swapChain, std::numeric_limits<uint64_t>::max(), imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
+
+	VkSubmitInfo submitInfo = {};
+	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+
+	VkSemaphore waitSemaphores[] = { imageAvailableSemaphores[currentFrame] };
+	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+	submitInfo.waitSemaphoreCount = 1;
+	submitInfo.pWaitSemaphores = waitSemaphores;
+	submitInfo.pWaitDstStageMask = waitStages;
+
+	submitInfo.commandBufferCount = 1;
+
+	auto cbs = Pipe->GetCommandBuffers();
+
+
+	submitInfo.pCommandBuffers = &cbs[imageIndex];
+
+	VkSemaphore signalSemaphores[] = { renderFinishedSemaphores[currentFrame] };
+	submitInfo.signalSemaphoreCount = 1;
+	submitInfo.pSignalSemaphores = signalSemaphores;
+
+	if (vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]) != VK_SUCCESS) {
+		throw std::runtime_error("failed to submit draw command buffer!");
+	}
+
+	VkPresentInfoKHR presentInfo = {};
+	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+
+	presentInfo.waitSemaphoreCount = 1;
+	presentInfo.pWaitSemaphores = signalSemaphores;
+
+	VkSwapchainKHR swapChains[] = { swapChain };
+	presentInfo.swapchainCount = 1;
+	presentInfo.pSwapchains = swapChains;
+
+	presentInfo.pImageIndices = &imageIndex;
+
+	vkQueuePresentKHR(presentQueue, &presentInfo);
+
+	currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
+
+
+}
+
 void FusionApp::CleanUp() {
+
+	vkDestroySemaphore(dev, renderFinishedSemaphore, nullptr);
+	vkDestroySemaphore(dev, imageAvailableSemaphore, nullptr);
+	for (auto framebuffer : swapChainFramebuffers) {
+		vkDestroyFramebuffer(dev, framebuffer, nullptr);
+	}
+
+	vkDestroyRenderPass(dev, renderPass, nullptr);
 
 	for (auto imageView : swapChainImageViews) {
 		vkDestroyImageView(dev, imageView, nullptr);

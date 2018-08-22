@@ -1,2 +1,3 @@
-﻿  GraphicsPipeline.cpp
+﻿  FusionApp.cpp
+c:\dev\git\fusion3d\fusionlib\fusionlib\fusionapp.cpp(386): warning C4838: conversion from 'int' to 'uint32_t' requires a narrowing conversion
   fusionlib.vcxproj -> C:\Dev\Git\fusion3d\fusionlib\x64\Debug\fusionlib.lib

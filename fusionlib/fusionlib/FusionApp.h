@@ -2,6 +2,8 @@
 
 #include "stdafx.h"
 
+class GraphicsPipeline;
+
 //#include <string>
 
 
@@ -37,9 +39,18 @@ public:
 		return dev;
 	}
 	VkExtent2D GetSwapExtent() { return swapChainExtent; }
-
-private:
+	VkRenderPass GetRenderPass() { return renderPass; }
+	std::vector<VkFramebuffer> GetFrameBuffers();
+	VkCommandPool GetCommandPool() { return commandPool; }
+	void SetPipe(GraphicsPipeline *pipe)
+	{
+		Pipe = pipe;
+	}
 	
+private:
+	void createSyncObjects();
+	GraphicsPipeline *Pipe;
+	void DrawFrame();
 	void CleanUp();
 	void InitVulkan();
 	void RunApp();
@@ -57,6 +68,7 @@ private:
 	VkQueue presentQueue;
 	VkSurfaceKHR surface;
 	VkSwapchainKHR swapChain;
+	VkCommandPool commandPool;
 	std::vector<VkImage> swapChainImages;
 	std::vector<VkImageView> swapChainImageViews;
 	VkFormat swapChainImageFormat;
@@ -65,7 +77,13 @@ private:
 	void createLogicalDevice();
 	void createSwapChain();
 	void createImageViews();
+	void createRenderpass();
+	void createFrameBuffers();
+	void createCommandPool();
+
 	bool isDeviceSuitable(VkPhysicalDevice device);
+	VkRenderPass renderPass;
+	
 	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 	VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR> availablePresentModes);
 	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);

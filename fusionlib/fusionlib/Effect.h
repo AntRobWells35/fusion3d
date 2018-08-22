@@ -29,8 +29,30 @@ public:
 	Effect();
 	Effect(string vertFile, string fragFile, FusionApp * app);
 	virtual ~Effect();
+	VkPipelineShaderStageCreateInfo GetVertexStage() {
+		return vS;
+	}
+	VkPipelineShaderStageCreateInfo GetFragStage() {
+		return fS;
+	}
+
+	VkPipelineShaderStageCreateInfo * GetShaderStages()
+	{
+		VkPipelineShaderStageCreateInfo rv[] = { vS,fS };
+		return rv;
+	}
+	VkPipelineVertexInputStateCreateInfo GetVertexInput() {
+		return vertexInputInfo;
+	}
+
+	VkPipelineInputAssemblyStateCreateInfo GetInputAssembly() {
+		return inputAssembly;
+	}
+
 private:
 	FusionApp * rApp;
+	VkPipelineVertexInputStateCreateInfo vertexInputInfo;
+	VkPipelineInputAssemblyStateCreateInfo inputAssembly;
 	VkShaderModule createModule(const std::vector<char>& code, FusionApp * app);
 	VkShaderModule vMod;
 	VkShaderModule fMod;

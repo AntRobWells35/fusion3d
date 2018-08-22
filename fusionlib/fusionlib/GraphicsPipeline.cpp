@@ -6,7 +6,7 @@ GraphicsPipeline::GraphicsPipeline()
 {
 }
 
-GraphicsPipeline::GraphicsPipeline(FusionApp * app)
+GraphicsPipeline::GraphicsPipeline(FusionApp * app,Effect * fx)
 {
 
 	App = app;
@@ -87,10 +87,106 @@ GraphicsPipeline::GraphicsPipeline(FusionApp * app)
 		throw std::runtime_error("failed to create pipeline layout!");
 	}
 
+	VkGraphicsPipelineCreateInfo pipelineInfo = {};
+	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+	pipelineInfo.stageCount = 2;
 
+	VkPipelineShaderStageCreateInfo shaderStages[] = { fx->GetVertexStage(), fx->GetFragStage() };
+
+
+	pipelineInfo.pStages = shaderStages;
+
+	pipelineInfo.pVertexInputState = &fx->GetVertexInput();
+	pipelineInfo.pInputAssemblyState = &fx->GetInputAssembly();
+	pipelineInfo.pViewportState = &viewportState;
+	pipelineInfo.pRasterizationState = &rasterizer;
+	pipelineInfo.pMultisampleState = &multisampling;
+	pipelineInfo.pDepthStencilState = nullptr; // Optional
+	pipelineInfo.pColorBlendState = &colorBlending;
+	pipelineInfo.pDynamicState = nullptr; // Optional
+
+	pipelineInfo.layout = pipelineLayout;
+
+	pipelineInfo.renderPass = app->GetRenderPass();
+	pipelineInfo.subpass = 0;
+	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
+	pipelineInfo.basePipelineIndex = -1; // Optional
+
+	if (vkCreateGraphicsPipelines(app->GetDevice(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS) {
+		throw std::runtime_error("failed to create graphics pipeline!");
+	}
+	else {
+		cout << "Created graphics pipeline" << endl;
+	}
+
+	createCommandBuffers();
+
+}
+
+
+
+void GraphicsPipeline::createCommandBuffers()
+{
+
+	swapChainFramebuffers = App->GetFrameBuffers();
+
+	commandBuffers.resize(App->GetFrameBuffers().size());
+
+
+	VkCommandBufferAllocateInfo allocInfo = {};
+	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+	allocInfo.commandPool = App->GetCommandPool();
+	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+	allocInfo.commandBufferCount = (uint32_t)commandBuffers.size();
+
+	if (vkAllocateCommandBuffers(App->GetDevice(), &allocInfo, commandBuffers.data()) != VK_SUCCESS) {
+		throw std::runtime_error("failed to allocate command buffers!");
+	}
+	else {
+		cout << "Allocated command buffers" << endl;
+	}
+
+
+
+	for (size_t i = 0; i < commandBuffers.size(); i++) {
+		VkCommandBufferBeginInfo beginInfo = {};
+		beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+		beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+
+		if (vkBeginCommandBuffer(commandBuffers[i], &beginInfo) != VK_SUCCESS) {
+			throw std::runtime_error("failed to begin recording command buffer!");
+		}
+
+		VkRenderPassBeginInfo renderPassInfo = {};
+		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+		renderPassInfo.renderPass = App->GetRenderPass();
+			renderPassInfo.framebuffer = swapChainFramebuffers[i];
+		renderPassInfo.renderArea.offset = { 0, 0 };
+		renderPassInfo.renderArea.extent = App->GetSwapExtent();
+
+		VkClearValue clearColor = { 0.0f, 0.0f, 0.0f, 1.0f };
+		renderPassInfo.clearValueCount = 1;
+		renderPassInfo.pClearValues = &clearColor;
+
+		vkCmdBeginRenderPass(commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+		vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+
+		vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
+
+		vkCmdEndRenderPass(commandBuffers[i]);
+
+		if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
+			throw std::runtime_error("failed to record command buffer!");
+		}
+		else {
+			cout << "Recorded command buffer end" << endl;
+		}
+	}
 	
 }
 
 GraphicsPipeline::~GraphicsPipeline()
 {
+	vkDestroyPipelineLayout(App->GetDevice(), pipelineLayout, nullptr);
 }
