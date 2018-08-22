@@ -46,7 +46,7 @@ public:
 	{
 		Pipe = pipe;
 	}
-	
+	bool framebufferResized = false;
 private:
 	void createSyncObjects();
 	GraphicsPipeline *Pipe;
@@ -80,7 +80,9 @@ private:
 	void createRenderpass();
 	void createFrameBuffers();
 	void createCommandPool();
-
+	void recreateSwapChain();
+	void cleanupSwapChain();
+	
 	bool isDeviceSuitable(VkPhysicalDevice device);
 	VkRenderPass renderPass;
 	

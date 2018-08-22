@@ -225,6 +225,51 @@ void FusionApp::InitVulkan() {
 }
 
 
+void FusionApp::cleanupSwapChain() {
+
+	for (size_t i = 0; i < swapChainFramebuffers.size(); i++) {
+		vkDestroyFramebuffer(dev, swapChainFramebuffers[i], nullptr);
+	}
+
+	vkFreeCommandBuffers(dev, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
+
+	vkDestroyPipeline(dev, Pipe->GetPipeline(), nullptr);
+	vkDestroyPipelineLayout(dev, Pipe->GetPipelineLayout(), nullptr);
+	vkDestroyRenderPass(dev, renderPass, nullptr);
+
+	for (size_t i = 0; i < swapChainImageViews.size(); i++) {
+		vkDestroyImageView(dev, swapChainImageViews[i], nullptr);
+	}
+
+	vkDestroySwapchainKHR(dev, swapChain, nullptr);
+}
+
+void FusionApp::recreateSwapChain() {
+
+	int width = 0, height = 0;
+	while (width == 0 || height == 0) {
+		glfwGetFramebufferSize(Win, &width, &height);
+		glfwWaitEvents();
+	}
+
+	vkDeviceWaitIdle(dev);
+
+
+	cleanupSwapChain();
+
+	createSwapChain();
+	createImageViews();
+
+	createRenderpass();
+	//createGraphicsPipeline();
+	Pipe->Recreate();
+	createFrameBuffers();
+	//createCommandBuffers();
+	Pipe->CreateBuffers();
+
+}
+
+
 void FusionApp::createCommandPool() {
 
 	QueueFamilyIndices queueFamilyIndices = findQueueFamilies(pDev);
@@ -383,13 +428,21 @@ VkExtent2D FusionApp::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilit
 		return capabilities.currentExtent;
 	}
 	else {
-		VkExtent2D actualExtent = { WinWidth,WinHeight };
+		int width, height;
+		glfwGetFramebufferSize(Win, &width, &height);
 
+		VkExtent2D actualExtent = {
+			static_cast<uint32_t>(width),
+			static_cast<uint32_t>(height)
+		};
 		actualExtent.width = std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, actualExtent.width));
 		actualExtent.height = std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, actualExtent.height));
 
 		return actualExtent;
 	}
+
+
+	
 }
 
 void FusionApp::createSwapChain() {
@@ -624,15 +677,20 @@ SwapChainSupportDetails FusionApp::querySwapChainSupport(VkPhysicalDevice device
 
 VkSemaphore imageAvailableSemaphore;
 VkSemaphore renderFinishedSemaphore;
+static void framebufferResizeCallback(GLFWwindow* window, int width, int height) {
+	auto app = reinterpret_cast<FusionApp*>(glfwGetWindowUserPointer(window));
+	app->framebufferResized = true;
+}
 
 void FusionApp::Run() {
 
 	glfwInit();
 
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 	Win = glfwCreateWindow(WinWidth, WinHeight,WinTitle.c_str() , nullptr, nullptr);
-
+	glfwSetWindowUserPointer(Win, this);
+	glfwSetFramebufferSizeCallback(Win, framebufferResizeCallback);
 	InitVulkan();
 
 
@@ -683,7 +741,16 @@ void FusionApp::DrawFrame() {
 	vkResetFences(dev, 1, &inFlightFences[currentFrame]);
 
 	uint32_t imageIndex;
-	vkAcquireNextImageKHR(dev, swapChain, std::numeric_limits<uint64_t>::max(), imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
+	VkResult result = vkAcquireNextImageKHR(dev, swapChain, std::numeric_limits<uint64_t>::max(), imageAvailableSemaphores[currentFrame], VK_NULL_HANDLE, &imageIndex);
+
+	if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+		recreateSwapChain();
+		return;
+	}
+	else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+		throw std::runtime_error("failed to acquire swap chain image!");
+	}
+
 
 	VkSubmitInfo submitInfo = {};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -705,6 +772,8 @@ void FusionApp::DrawFrame() {
 	submitInfo.signalSemaphoreCount = 1;
 	submitInfo.pSignalSemaphores = signalSemaphores;
 
+	vkResetFences(dev, 1, &inFlightFences[currentFrame]);
+
 	if (vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFences[currentFrame]) != VK_SUCCESS) {
 		throw std::runtime_error("failed to submit draw command buffer!");
 	}
@@ -721,37 +790,39 @@ void FusionApp::DrawFrame() {
 
 	presentInfo.pImageIndices = &imageIndex;
 
-	vkQueuePresentKHR(presentQueue, &presentInfo);
+	result = vkQueuePresentKHR(presentQueue, &presentInfo);
+
+	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized) {
+		recreateSwapChain();
+	}
+	else if (result != VK_SUCCESS) {
+		throw std::runtime_error("failed to present swap chain image!");
+	}
 
 	currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 
-
 }
 
+
 void FusionApp::CleanUp() {
+	
+	cleanupSwapChain();
 
-	vkDestroySemaphore(dev, renderFinishedSemaphore, nullptr);
-	vkDestroySemaphore(dev, imageAvailableSemaphore, nullptr);
-	for (auto framebuffer : swapChainFramebuffers) {
-		vkDestroyFramebuffer(dev, framebuffer, nullptr);
+	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+		vkDestroySemaphore(dev, renderFinishedSemaphores[i], nullptr);
+		vkDestroySemaphore(dev, imageAvailableSemaphores[i], nullptr);
+		vkDestroyFence(dev, inFlightFences[i], nullptr);
 	}
 
-	vkDestroyRenderPass(dev, renderPass, nullptr);
+	vkDestroyCommandPool(dev, commandPool, nullptr);
 
-	for (auto imageView : swapChainImageViews) {
-		vkDestroyImageView(dev, imageView, nullptr);
-	}
-
-
-	vkDestroySwapchainKHR(dev, swapChain, nullptr);
 	vkDestroyDevice(dev, nullptr);
 
 	if (enableValidationLayers) {
-		DestroyDebugUtilsMessengerEXT(vInstance, callback, nullptr);
+	//	DestroyDebugReportCallbackEXT(vInstance, callback, nullptr);
 	}
 
 	vkDestroySurfaceKHR(vInstance, surface, nullptr);
-
 	vkDestroyInstance(vInstance, nullptr);
 
 	glfwDestroyWindow(Win);

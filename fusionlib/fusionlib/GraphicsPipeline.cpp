@@ -6,22 +6,27 @@ GraphicsPipeline::GraphicsPipeline()
 {
 }
 
-GraphicsPipeline::GraphicsPipeline(FusionApp * app,Effect * fx)
-{
+void GraphicsPipeline::Recreate() {
 
-	App = app;
+	auto app = App;
+	auto fx = FX;
 
+	Setup();
+
+}
+
+void GraphicsPipeline::Setup() {
 	VkViewport viewport = {};
 	viewport.x = 0.0f;
 	viewport.y = 0.0f;
-	viewport.width = (float)app->GetSwapExtent().width;
-	viewport.height = (float)app->GetSwapExtent().height;
+	viewport.width = (float)App->GetSwapExtent().width;
+	viewport.height = (float)App->GetSwapExtent().height;
 	viewport.minDepth = 0.0f;
 	viewport.maxDepth = 1.0f;
 
 	VkRect2D scissor = {};
 	scissor.offset = { 0, 0 };
-	scissor.extent = app->GetSwapExtent();
+	scissor.extent = App->GetSwapExtent();
 
 	VkPipelineViewportStateCreateInfo viewportState = {};
 	viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
@@ -83,7 +88,7 @@ GraphicsPipeline::GraphicsPipeline(FusionApp * app,Effect * fx)
 	pipelineLayoutInfo.setLayoutCount = 0;
 	pipelineLayoutInfo.pushConstantRangeCount = 0;
 
-	if (vkCreatePipelineLayout(app->GetDevice(), &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+	if (vkCreatePipelineLayout(App->GetDevice(), &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create pipeline layout!");
 	}
 
@@ -91,13 +96,13 @@ GraphicsPipeline::GraphicsPipeline(FusionApp * app,Effect * fx)
 	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 	pipelineInfo.stageCount = 2;
 
-	VkPipelineShaderStageCreateInfo shaderStages[] = { fx->GetVertexStage(), fx->GetFragStage() };
+	VkPipelineShaderStageCreateInfo shaderStages[] = { FX->GetVertexStage(), FX->GetFragStage() };
 
 
 	pipelineInfo.pStages = shaderStages;
 
-	pipelineInfo.pVertexInputState = &fx->GetVertexInput();
-	pipelineInfo.pInputAssemblyState = &fx->GetInputAssembly();
+	pipelineInfo.pVertexInputState = &FX->GetVertexInput();
+	pipelineInfo.pInputAssemblyState = &FX->GetInputAssembly();
 	pipelineInfo.pViewportState = &viewportState;
 	pipelineInfo.pRasterizationState = &rasterizer;
 	pipelineInfo.pMultisampleState = &multisampling;
@@ -107,23 +112,34 @@ GraphicsPipeline::GraphicsPipeline(FusionApp * app,Effect * fx)
 
 	pipelineInfo.layout = pipelineLayout;
 
-	pipelineInfo.renderPass = app->GetRenderPass();
+	pipelineInfo.renderPass = App->GetRenderPass();
 	pipelineInfo.subpass = 0;
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 	pipelineInfo.basePipelineIndex = -1; // Optional
 
-	if (vkCreateGraphicsPipelines(app->GetDevice(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS) {
+	if (vkCreateGraphicsPipelines(App->GetDevice(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create graphics pipeline!");
 	}
 	else {
 		cout << "Created graphics pipeline" << endl;
 	}
+}
+
+GraphicsPipeline::GraphicsPipeline(FusionApp * app,Effect * fx)
+{
+
+	App = app;
+	FX = fx;
+
+	Setup();
 
 	createCommandBuffers();
 
 }
 
-
+void GraphicsPipeline::CreateBuffers() {
+	createCommandBuffers();
+}
 
 void GraphicsPipeline::createCommandBuffers()
 {
