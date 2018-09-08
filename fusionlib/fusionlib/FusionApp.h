@@ -54,6 +54,12 @@ public:
 	}
 	bool framebufferResized = false;
 	static FusionApp *GA;
+	VkCommandPool GetComPool() {
+		return commandPool;
+	}
+	VkQueue GetGraphicsQueue() {
+		return graphicsQueue;
+	}
 private:
 	
 	void createSyncObjects();

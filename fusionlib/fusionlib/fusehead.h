@@ -10,3 +10,6 @@
 #include "Effect.h"
 #include "VertexBuffer.h"
 #include "Mesh3D.h"
+
+#define FApp FusionApp::GetApp()
+#define AppDev FusionApp::GetApp()->GetDevice()
