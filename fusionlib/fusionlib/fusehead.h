@@ -9,3 +9,4 @@
 #include "MultiPassRenderer.h"
 #include "Effect.h"
 #include "VertexBuffer.h"
+#include "Mesh3D.h"
