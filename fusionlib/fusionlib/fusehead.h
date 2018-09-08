@@ -8,3 +8,4 @@
 #include "GraphScene.h"
 #include "MultiPassRenderer.h"
 #include "Effect.h"
+#include "VertexBuffer.h"

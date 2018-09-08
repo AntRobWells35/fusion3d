@@ -2,6 +2,9 @@
 #include "FusionApp.h"
 
 
+
+
+
 const std::vector<const char*> validationLayers = {
 "VK_LAYER_LUNARG_standard_validation"
 };
@@ -42,8 +45,11 @@ FusionApp::FusionApp(int winWidth,int winHeight,string title,bool fullScreen)
 	WinHeight = winHeight;
 	WinTitle = title;
 	WinFull = fullScreen;
+	GA = this;
 	
 }
+
+FusionApp * FusionApp::GA;
 
 QueueFamilyIndices FusionApp::findQueueFamilies(VkPhysicalDevice device) {
 

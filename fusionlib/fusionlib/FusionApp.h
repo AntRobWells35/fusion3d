@@ -38,6 +38,9 @@ public:
 	VkDevice GetDevice() {
 		return dev;
 	}
+	VkPhysicalDevice GetPyDevice() {
+		return pDev;
+	}
 	VkExtent2D GetSwapExtent() { return swapChainExtent; }
 	VkRenderPass GetRenderPass() { return renderPass; }
 	std::vector<VkFramebuffer> GetFrameBuffers();
@@ -46,8 +49,13 @@ public:
 	{
 		Pipe = pipe;
 	}
+	static FusionApp * GetApp() {
+		return GA;
+	}
 	bool framebufferResized = false;
+	static FusionApp *GA;
 private:
+	
 	void createSyncObjects();
 	GraphicsPipeline *Pipe;
 	void DrawFrame();
@@ -92,4 +100,5 @@ private:
 	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
 	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 };
+
 

@@ -1,12 +1,2 @@
-﻿  stdafx.cpp
-c:\dev\git\fusion3d\fusionlib\fusionlib\stdafx.h(18): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  Effect.cpp
-  FusionApp.cpp
-  GraphNode.cpp
-  GraphRenderer.cpp
-  GraphScene.cpp
-  GraphicsPipeline.cpp
-  MultiPassRenderer.cpp
-  VertexBuffer.cpp
-  Generating Code...
+﻿  VertexBuffer.cpp
   fusionlib.vcxproj -> C:\dev\git\fusion3d\fusionlib\x64\Debug\fusionlib.lib

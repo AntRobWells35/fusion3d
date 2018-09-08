@@ -3,12 +3,13 @@
 #include "fusehead.h"
 
 class Effect;
+class VertexBuffer;
 
 class GraphicsPipeline
 {
 public:
 	GraphicsPipeline();
-	GraphicsPipeline(FusionApp * app,Effect * fx);
+	GraphicsPipeline(FusionApp * app, Effect * fx, VertexBuffer *vb);
 	virtual ~GraphicsPipeline();
 	VkPipeline GetPipeline() {
 		return graphicsPipeline;
@@ -29,6 +30,7 @@ private:
 	void createCommandBuffers();
 	FusionApp * App;
 	Effect * FX;
+	VertexBuffer * VB;
 	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;
 };
