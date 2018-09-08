@@ -59,6 +59,8 @@ private:
 	VkPipelineShaderStageCreateInfo vS, fS;
 	bool useV;
 	bool useF;
+	array<VkVertexInputAttributeDescription, 7> vi;
+	VkVertexInputBindingDescription vd;
 
 };
 

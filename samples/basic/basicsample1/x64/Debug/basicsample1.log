@@ -1,4 +1,4 @@
-﻿  {{xgTaskID=0000000E}}pch.cpp{{xgTaskID=00000000}}
-  {{xgTaskID=0000000F}}basicsample1.cppc:\dev\git\fusion3d\fusionlib\fusionlib\stdafx.h(18): warning C4067: unexpected tokens following preprocessor directive - expected a newline{{xgTaskID=00000000}}
-{{xgTaskID=00000010}}LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library{{xgTaskID=00000000}}
+﻿  basicsample1.cpp
+c:\dev\git\fusion3d\fusionlib\fusionlib\stdafx.h(18): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   basicsample1.vcxproj -> C:\dev\git\fusion3d\fusionlib\x64\Debug\basicsample1.exe

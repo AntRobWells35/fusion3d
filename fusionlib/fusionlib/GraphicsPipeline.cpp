@@ -92,30 +92,27 @@ void GraphicsPipeline::Setup() {
 		throw std::runtime_error("failed to create pipeline layout!");
 	}
 
-	VkGraphicsPipelineCreateInfo pipelineInfo = {};
-	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-	pipelineInfo.stageCount = 2;
+	
 
 	VkPipelineShaderStageCreateInfo shaderStages[] = { FX->GetVertexStage(), FX->GetFragStage() };
 
-
+	VkGraphicsPipelineCreateInfo pipelineInfo = {};
+	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+	pipelineInfo.stageCount = 2;
 	pipelineInfo.pStages = shaderStages;
-
 	pipelineInfo.pVertexInputState = &FX->GetVertexInput();
 	pipelineInfo.pInputAssemblyState = &FX->GetInputAssembly();
 	pipelineInfo.pViewportState = &viewportState;
 	pipelineInfo.pRasterizationState = &rasterizer;
 	pipelineInfo.pMultisampleState = &multisampling;
-	pipelineInfo.pDepthStencilState = nullptr; // Optional
 	pipelineInfo.pColorBlendState = &colorBlending;
-	pipelineInfo.pDynamicState = nullptr; // Optional
-
 	pipelineInfo.layout = pipelineLayout;
-
 	pipelineInfo.renderPass = App->GetRenderPass();
 	pipelineInfo.subpass = 0;
-	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
-	pipelineInfo.basePipelineIndex = -1; // Optional
+	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
+
+
+
 
 	if (vkCreateGraphicsPipelines(App->GetDevice(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create graphics pipeline!");

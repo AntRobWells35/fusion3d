@@ -53,14 +53,21 @@ Effect::Effect(string vertFile, string fragFile,FusionApp * app)
 	vS = vertShaderStageInfo;
 	fS = fragShaderStageInfo;
 	 
-
-
-	vertexInputInfo = {};
+	 vertexInputInfo = {};
 	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-	vertexInputInfo.vertexBindingDescriptionCount = 0;
-	vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
-	vertexInputInfo.vertexAttributeDescriptionCount = 0;
-	vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
+
+	 vd = Vertex::getBindingDescription();
+	 vi = Vertex::getAttributeDescriptions();
+
+
+
+
+	vertexInputInfo.vertexBindingDescriptionCount = 1;
+	vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vi.size());
+	vertexInputInfo.pVertexBindingDescriptions = &vd;
+	vertexInputInfo.pVertexAttributeDescriptions = vi.data();
+
+
 
 	inputAssembly = {};
 	inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;

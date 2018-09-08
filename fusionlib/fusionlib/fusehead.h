@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Geo.h"
 #include "FusionApp.h"
 #include "GraphicsPipeline.h"
 #include "GraphNode.h"
