@@ -240,7 +240,7 @@ void FusionApp::cleanupSwapChain() {
 	vkFreeCommandBuffers(dev, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
 
 	vkDestroyPipeline(dev, Pipe->GetPipeline(), nullptr);
-	vkDestroyPipelineLayout(dev, Pipe->GetPipelineLayout(), nullptr);
+	vkDestroyPipelineLayout(dev, *Pipe->GetPipelineLayout(), nullptr);
 	vkDestroyRenderPass(dev, renderPass, nullptr);
 
 	for (size_t i = 0; i < swapChainImageViews.size(); i++) {
@@ -733,6 +733,7 @@ void FusionApp::RunApp()
 }
 
 void FusionApp::DrawFrame() {
+	
 	vkWaitForFences(dev, 1, &inFlightFences[currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
 	vkResetFences(dev, 1, &inFlightFences[currentFrame]);
 
@@ -759,10 +760,10 @@ void FusionApp::DrawFrame() {
 
 	submitInfo.commandBufferCount = 1;
 
-	auto cbs = Pipe->GetCommandBuffers();
+	auto cbs = Pipe->GetGpus();
 
 
-	submitInfo.pCommandBuffers = &cbs[imageIndex];
+	submitInfo.pCommandBuffers = cbs[imageIndex]->GetBuffer();
 
 	VkSemaphore signalSemaphores[] = { renderFinishedSemaphores[currentFrame] };
 	submitInfo.signalSemaphoreCount = 1;
@@ -797,7 +798,7 @@ void FusionApp::DrawFrame() {
 	}
 
 	currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
-
+	
 }
 
 

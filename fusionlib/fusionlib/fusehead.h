@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Common.h"
+#include "GpuChain.h"
 #include "Geo.h"
 #include "FusionApp.h"
 #include "GraphicsPipeline.h"

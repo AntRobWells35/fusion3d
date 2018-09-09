@@ -161,11 +161,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Common.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="fusehead.h" />
     <ClInclude Include="FusionApp.h" />
     <ClInclude Include="Geo.h" />
     <ClInclude Include="Globs.h" />
+    <ClInclude Include="GpuChain.h" />
     <ClInclude Include="GraphicsPipeline.h" />
     <ClInclude Include="GraphNode.h" />
     <ClInclude Include="GraphRenderer.h" />
@@ -177,8 +179,10 @@
     <ClInclude Include="VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Common.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="FusionApp.cpp" />
+    <ClCompile Include="GpuChain.cpp" />
     <ClCompile Include="GraphicsPipeline.cpp" />
     <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="GraphRenderer.cpp" />

@@ -4,34 +4,86 @@
 
 class Effect;
 class VertexBuffer;
+class GpuChain;
 
 class GraphicsPipeline
 {
 public:
 	GraphicsPipeline();
-	GraphicsPipeline(FusionApp * app, Effect * fx, VertexBuffer *vb);
+	GraphicsPipeline(FusionApp * app, Effect * fx, VertexBuffer *vb,VertexBuffer *vb2);
 	virtual ~GraphicsPipeline();
 	VkPipeline GetPipeline() {
 		return graphicsPipeline;
 	}
-	VkPipelineLayout GetPipelineLayout() {
-		return pipelineLayout;
+	VkPipeline * GetGraphicsPipeline() {
+		return &graphicsPipeline;
 	}
-	std::vector<VkCommandBuffer> GetCommandBuffers()
-	{
-		return commandBuffers;
+	VkPipelineLayout *GetPipelineLayout() {
+		return &pipelineLayout;
+	}
+
+	VkPipelineLayout * GetLayout() {
+		return &pipelineLayout;
 	}
 	void CreateBuffers();
 	void Recreate();
+	void CreateInternals() {
+		
+		viewport = {};
+		scissor = {};
+		viewportState = {};
+		rasterizer = {};
+		multisampling = {};
+		colorBlendAttachment = {};
+		colorBlending = {};
+		pipelineLayoutInfo = {};
+	}
+	VkViewport * GetViewport() {
+		return &viewport;
+	}
+	VkRect2D * GetScissor() {
+		return &scissor;
+	}
+	VkPipelineViewportStateCreateInfo * GetViewportState() {
+		return &viewportState;
+	}
+	VkPipelineRasterizationStateCreateInfo * GetRasterizer() {
+		return &rasterizer;
+	}
+	VkPipelineMultisampleStateCreateInfo * GetMultiSampling() {
+		return &multisampling;
+	}
+	VkPipelineColorBlendAttachmentState * GetColorblendAttachment() {
+		return &colorBlendAttachment;
+	}
+	VkPipelineColorBlendStateCreateInfo * GetColorblending() {
+		return &colorBlending;
+	}
+	VkPipelineLayoutCreateInfo * GetLayoutInfo() {
+		return &pipelineLayoutInfo;
+	}
+	vector<GpuChain *> GetGpus() {
+		return Gpus;
+	}
 private:
 	void Setup();
 	std::vector<VkFramebuffer> swapChainFramebuffers;
-	std::vector<VkCommandBuffer> commandBuffers;
+	std::vector<GpuChain *> Gpus;
 	void createCommandBuffers();
 	FusionApp * App;
 	Effect * FX;
+	VertexBuffer * VB2;
 	VertexBuffer * VB;
 	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;
+	VkViewport viewport;
+	VkRect2D scissor;
+	VkPipelineViewportStateCreateInfo viewportState;
+	VkPipelineRasterizationStateCreateInfo rasterizer;
+	VkPipelineMultisampleStateCreateInfo multisampling;
+	VkPipelineColorBlendAttachmentState colorBlendAttachment;
+	VkPipelineColorBlendStateCreateInfo colorBlending;
+	VkPipelineLayoutCreateInfo pipelineLayoutInfo;
+//	GpuChain * GPU;
 };
 
