@@ -106,12 +106,12 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Dev\Git\fusion3d\fusionlib\fusionlib;C:\dev\sdk\vulkan\1.1.82.1\Include;C:\Dev\SDK\glm;C:\dev\sdk\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Dev\Git\fusion3d_1\fusionlib\fusionlib;C:\dev\sdk\vulkan\1.1.82.1\Include;C:\Dev\SDK\glm;C:\dev\sdk\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\dev\git\fusion3d\fusionlib\x64\Debug;C:\dev\sdk\glfw\lib-vc2015;C:\dev\sdk\vulkan\1.1.82.1\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\dev\git\fusion3d_1\fusionlib\x64\Debug;C:\dev\sdk\glfw\lib-vc2015;C:\dev\sdk\vulkan\1.1.82.1\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>vulkan-1.lib;glfw3.lib;fusionlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
