@@ -13,7 +13,7 @@ public:
 	void Copy(MemBuffer *src, MemBuffer *dst);
 	void BeginRender(VkFramebuffer * fb, GraphicsPipeline *gp);
 	void Render(VertexBuffer *vb);
-	void Render(VertexBuffer *vb, UniformBinder * binder);
+	void Render(VertexBuffer *vb, UniformBinder * binder, VkPipelineLayout layout, VkDescriptorSet sets);
 	void EndRender();
 	void EndBuffer();
 	VkCommandBuffer * GetBuffer()

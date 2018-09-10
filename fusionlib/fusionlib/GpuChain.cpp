@@ -107,7 +107,7 @@ void GpuChain::Render(VertexBuffer * vb) {
 	vkCmdBindIndexBuffer(buffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
 
 
-	vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[i], 0, nullptr);
+	//vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[i], 0, nullptr);
 
 
 	vkCmdDrawIndexed(buffer, static_cast<uint32_t>(vb->GetIndices().size()), 1, 0, 0, 0);
@@ -116,8 +116,23 @@ void GpuChain::Render(VertexBuffer * vb) {
 
 }
 
-void GpuChain::Render(VertexBuffer *vb, UniformBinder *binder)
+void GpuChain::Render(VertexBuffer *vb, UniformBinder *binder,VkPipelineLayout layout,VkDescriptorSet set)
 {
+
+	VkBuffer vertexBuffers[] = { vb->GetBuf() };
+	VkDeviceSize offsets[] = { 0 };
+	vkCmdBindVertexBuffers(buffer, 0, 1, vertexBuffers, offsets);
+
+	VkBuffer indexBuffer = vb->GetIndexBuf();
+
+	vkCmdBindIndexBuffer(buffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+
+
+	vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0, 1, &set, 0, nullptr);
+
+
+	vkCmdDrawIndexed(buffer, static_cast<uint32_t>(vb->GetIndices().size()), 1, 0, 0, 0);
+
 
 }
 

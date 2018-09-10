@@ -25,9 +25,19 @@ void GraphicsPipeline::Setup() {
 
 	for (int i = 0; i < swapChainFramebuffers.size(); i++) {
 
-		ModelViewProj mvp;
+		ModelViewProj test = {};
+	//	test.model = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
+		test.model = glm::rotate(glm::mat4(1.0f), glm::radians(50.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		test.proj = glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -1, 1);
+		test.view = glm::mat4(1.0f);
 
-		uni[i] = new UniformBuffer(&mvp,sizeof(mvp));
+
+		//uni[i] = new MemBuffer(sizeof(ModelViewProj), &test, false);
+		//uni[i]->MakeUniformBuffer();
+
+
+
+		uni[i] = new UniformBuffer(&test,sizeof(test));
 
 	}
 
@@ -51,7 +61,7 @@ void GraphicsPipeline::Setup() {
 		cout << "Created." << endl;
 	}
 
-	UniformBinder * binder = new UniformBinder(swapChainFramebuffers.size(), uni, desLay);
+	 binder = new UniformBinder(swapChainFramebuffers.size(), uni, desLay);
 	
 
 	Common::SetupPipeline(this, uni,desLay);
@@ -100,19 +110,13 @@ void GraphicsPipeline::createCommandBuffers()
 
 		Gpus[i]->BeginRender(&App->GetFrameBuffers()[i], this);
 
-		Gpus[i]->Render(VB);
+		Gpus[i]->Render(VB, binder, pipelineLayout, binder->GetSets()[i]);
 
 		Gpus[i]->EndRender();
 		
 		Gpus[i]->EndBuffer();
 		
-		ModelViewProj test = {};
-		test.model = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
-		test.proj = glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -1, 1);
-		test.view = glm::mat4();
-
-		Uniforms[i] = new MemBuffer(sizeof(ModelViewProj), &test, false);
-		Uniforms[i]->MakeUniformBuffer();
+	
 	}
 	
 }

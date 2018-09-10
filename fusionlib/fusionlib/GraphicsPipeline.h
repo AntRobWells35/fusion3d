@@ -76,6 +76,7 @@ private:
 	VertexBuffer * VB;
 	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;
+	UniformBinder * binder;
 	VkViewport viewport;
 	VkRect2D scissor;
 	VkPipelineViewportStateCreateInfo viewportState;
