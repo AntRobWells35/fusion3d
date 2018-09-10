@@ -11,7 +11,7 @@ Common::~Common()
 {
 }
 
-void Common::SetupPipeline(GraphicsPipeline * gp) {
+void Common::SetupPipeline(GraphicsPipeline * gp,vector<UniformBuffer *> uniforms,VkDescriptorSetLayout desLay) {
 	
 	VkViewport *viewport = gp->GetViewport();
 
@@ -84,7 +84,19 @@ void Common::SetupPipeline(GraphicsPipeline * gp) {
 
 		VkPipelineLayoutCreateInfo * pipelineLayoutInfo = gp->GetLayoutInfo();
 		pipelineLayoutInfo->sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-		pipelineLayoutInfo->setLayoutCount = 0;
+		pipelineLayoutInfo->setLayoutCount = 1;
+		pipelineLayoutInfo->pSetLayouts = &desLay;
+
+		vector<VkDescriptorSetLayout> los;
+
+//		los.resize(uniforms.size());
+
+	//	for (int i = 0; i < uniforms.size(); i++) {
+	//		los[i] = uniforms[i]->GetVK();
+	//	}
+
+
+	//	pipelineLayoutInfo->pSetLayouts = los.data();
 		pipelineLayoutInfo->pushConstantRangeCount = 0;
 
 		

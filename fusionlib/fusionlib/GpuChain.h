@@ -2,6 +2,7 @@
 #include "stdafx.h"
 
 class VertexBuffer;
+class MemBuffer;
 
 class GpuChain
 {
@@ -9,8 +10,10 @@ public:
 	GpuChain();
 	virtual ~GpuChain();
 	void BeginBuffer();
+	void Copy(MemBuffer *src, MemBuffer *dst);
 	void BeginRender(VkFramebuffer * fb, GraphicsPipeline *gp);
 	void Render(VertexBuffer *vb);
+	void Render(VertexBuffer *vb, UniformBinder * binder);
 	void EndRender();
 	void EndBuffer();
 	VkCommandBuffer * GetBuffer()

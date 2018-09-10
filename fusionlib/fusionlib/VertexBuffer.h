@@ -17,25 +17,28 @@ public:
 	std::vector<uint16_t> GetIndices() {
 		return indices;
 	}
-	VkDeviceMemory GetBufMem() {
-		return vertexBufferMemory;
+	VkBuffer GetBuf() {
+		return hardVertexMem->GetBuffer();
 	}
 	VkBuffer GetIndexBuf() {
-		return indexBuffer;
+		return hardIndexMem->GetBuffer();
 	}
-	VkBuffer GetBuf() {
-		return vertexBuffer;
+	VkDeviceMemory GetBufMem() {
+		return hardVertexMem->GetDevMem();
 	}
+	VkDeviceMemory GetIndexBufMem() {
+		return hardIndexMem->GetDevMem();
+	}
+
 private:
 	std::vector<Vertex> vertices;
 	std::vector<uint16_t> indices;
 
-	VkBuffer vertexBuffer;
-	VkDeviceMemory vertexBufferMemory;
-
-	VkBuffer indexBuffer;
-	VkDeviceMemory indexBufferMemory;
-
+	MemBuffer * vertexMem;
+	MemBuffer * hardVertexMem;
+	MemBuffer * indexMem;
+	MemBuffer * hardIndexMem;
+	
 };
 
 

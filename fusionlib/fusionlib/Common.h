@@ -9,7 +9,7 @@ class Common
 public:
 	Common();
 	virtual ~Common();
-	static void SetupPipeline(GraphicsPipeline *gp);
+	static void SetupPipeline(GraphicsPipeline *gp, vector<UniformBuffer *> uniforms, VkDescriptorSetLayout desLay);
 	static void BindShadersToPipeline(GraphicsPipeline *gp, Effect * fx);
 };
 

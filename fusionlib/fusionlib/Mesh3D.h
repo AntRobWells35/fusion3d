@@ -66,7 +66,7 @@ public:
 		VB->CreateBuffer();
 		VB2->CreateBuffer();
 		FX = new Effect("C:/Dev/Git/fusion3d_1/fusionlib/x64/Debug/shaders/basic2Dvert.spv", "C:/Dev/Git/fusion3d_1/fusionlib/x64/Debug/shaders/basic2Dfrag.spv", FusionApp::GetApp());
-		Pipe = new GraphicsPipeline(FusionApp::GetApp(), FX, VB,VB2);
+		Pipe = new GraphicsPipeline(FusionApp::GetApp(), FX, VB);
 		FusionApp::GetApp()->SetPipe(Pipe);
 	}
 	GraphicsPipeline * GetPipe() {

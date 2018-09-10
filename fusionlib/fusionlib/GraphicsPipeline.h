@@ -10,7 +10,7 @@ class GraphicsPipeline
 {
 public:
 	GraphicsPipeline();
-	GraphicsPipeline(FusionApp * app, Effect * fx, VertexBuffer *vb,VertexBuffer *vb2);
+	GraphicsPipeline(FusionApp * app, Effect * fx, VertexBuffer *vb);
 	virtual ~GraphicsPipeline();
 	VkPipeline GetPipeline() {
 		return graphicsPipeline;
@@ -69,10 +69,10 @@ private:
 	void Setup();
 	std::vector<VkFramebuffer> swapChainFramebuffers;
 	std::vector<GpuChain *> Gpus;
+	std::vector<MemBuffer *> Uniforms;
 	void createCommandBuffers();
 	FusionApp * App;
 	Effect * FX;
-	VertexBuffer * VB2;
 	VertexBuffer * VB;
 	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;

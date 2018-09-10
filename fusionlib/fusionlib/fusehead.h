@@ -1,6 +1,10 @@
 #pragma once
 
+#include "Uniforms.h"
+#include "UniformBuffer.h"
+#include "UniformBinder.h"
 #include "Common.h"
+#include "MemBuffer.h"
 #include "GpuChain.h"
 #include "Geo.h"
 #include "FusionApp.h"

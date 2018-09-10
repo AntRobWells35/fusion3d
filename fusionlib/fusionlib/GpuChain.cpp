@@ -11,6 +11,45 @@ GpuChain::~GpuChain()
 {
 }
 
+void GpuChain::Copy(MemBuffer *src, MemBuffer *dst) {
+	VkCommandBufferAllocateInfo allocInfo = {};
+	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+	allocInfo.commandPool = FusionApp::GetApp()->GetComPool();
+	allocInfo.commandBufferCount = 1;
+
+	VkCommandBuffer commandBuffer;
+	vkAllocateCommandBuffers(FusionApp::GetApp()->GetDevice(), &allocInfo, &commandBuffer);
+
+	VkCommandBufferBeginInfo beginInfo = {};
+	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+	beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+
+	vkBeginCommandBuffer(commandBuffer, &beginInfo);
+
+	VkDeviceSize size = src->GetSize();
+
+
+	VkBufferCopy copyRegion = {};
+	copyRegion.srcOffset = 0; // Optional
+	copyRegion.dstOffset = 0; // Optional
+	copyRegion.size = size;
+	vkCmdCopyBuffer(commandBuffer, src->GetBuffer(), dst->GetBuffer(), 1, &copyRegion);
+
+	vkEndCommandBuffer(commandBuffer);
+
+	VkSubmitInfo submitInfo = {};
+	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	submitInfo.commandBufferCount = 1;
+	submitInfo.pCommandBuffers = &commandBuffer;
+
+	vkQueueSubmit(FusionApp::GetApp()->GetGraphicsQueue(), 1, &submitInfo, VK_NULL_HANDLE);
+	vkQueueWaitIdle(FusionApp::GetApp()->GetGraphicsQueue());
+
+	vkFreeCommandBuffers(FusionApp::GetApp()->GetDevice(), FusionApp::GetApp()->GetComPool(), 1, &commandBuffer);
+
+}
+
 void GpuChain::BeginBuffer() {
 
 	VkCommandBufferAllocateInfo allocInfo = {};
@@ -67,9 +106,18 @@ void GpuChain::Render(VertexBuffer * vb) {
 
 	vkCmdBindIndexBuffer(buffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
 
+
+	vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[i], 0, nullptr);
+
+
 	vkCmdDrawIndexed(buffer, static_cast<uint32_t>(vb->GetIndices().size()), 1, 0, 0, 0);
 
 
+
+}
+
+void GpuChain::Render(VertexBuffer *vb, UniformBinder *binder)
+{
 
 }
 
