@@ -16,7 +16,7 @@ layout(location = 5) in vec3 inBinorm;
 layout(location = 6) in vec3 inTangent;
 
 layout(location = 0) out vec3 fragColor;
-
+layout(location = 1) out vec3 fragUV0;
 
 
 out gl_PerVertex {
@@ -26,5 +26,5 @@ out gl_PerVertex {
 void main() {
    gl_Position = mvp.proj * mvp.view * mvp.model * vec4(inPos, 1.0);
    fragColor = inCol;
-
+   fragUV0 = inUV0;
 }

@@ -61,6 +61,16 @@ void Common::SetupPipeline(GraphicsPipeline * gp,vector<UniformBuffer *> uniform
 		multisampling->alphaToCoverageEnable = VK_FALSE; // Optional
 		multisampling->alphaToOneEnable = VK_FALSE; // Optional
 
+
+		VkPipelineDepthStencilStateCreateInfo *depthStencil = gp->GetDepthStencil();
+		depthStencil->sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+		depthStencil->depthTestEnable = VK_TRUE;
+		depthStencil->depthWriteEnable = VK_TRUE;
+		depthStencil->depthCompareOp = VK_COMPARE_OP_LESS;
+		depthStencil->depthBoundsTestEnable = VK_FALSE;
+		depthStencil->stencilTestEnable = VK_FALSE;
+
+
 		VkPipelineColorBlendAttachmentState *colorBlendAttachment = gp->GetColorblendAttachment();
 		colorBlendAttachment->colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 		colorBlendAttachment->blendEnable = VK_FALSE;
@@ -124,6 +134,7 @@ void Common::BindShadersToPipeline(GraphicsPipeline *gp, Effect * fx)
 	pipelineInfo.pViewportState = gp->GetViewportState();
 	pipelineInfo.pRasterizationState = gp->GetRasterizer();
 	pipelineInfo.pMultisampleState = gp->GetMultiSampling();
+	pipelineInfo.pDepthStencilState = gp->GetDepthStencil();
 	pipelineInfo.pColorBlendState = gp->GetColorblending();
 	pipelineInfo.layout = *gp->GetLayout();
 	pipelineInfo.renderPass = FApp->GetRenderPass();

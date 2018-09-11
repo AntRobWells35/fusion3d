@@ -18,6 +18,10 @@ public:
 		v2.col = { 0.5,0.1,0.1 };
 		v3.col = { 1,1,1 };
 		v4.col = { 1,1,1 };
+		v1.uv0 = { 0,0,0 };
+		v2.uv0 = { 1,0,0 };
+		v3.uv0 = { 1,1,0 };
+		v4.uv0 = { 0,1,0 };
 
 
 
@@ -45,7 +49,10 @@ public:
 		v12.col = { 0.5,0.1,0.1 };
 		v13.col = { 1,1,1 };
 		v14.col = { 1,1,1 };
-
+		v11.uv0 = { 0,0,0 };
+		v12.uv0 = { 1,0,0 };
+		v13.uv0 = { 1,1,0 };
+		v14.uv0 = { 0,1,0 };
 
 
 
@@ -65,8 +72,10 @@ public:
 
 		VB->CreateBuffer();
 		VB2->CreateBuffer();
+		Texture2D * tex1 = new Texture2D("c:/media/tex1.jpg");
+
 		FX = new Effect("C:/Dev/Git/fusion3d_1/fusionlib/x64/Debug/shaders/basic2Dvert.spv", "C:/Dev/Git/fusion3d_1/fusionlib/x64/Debug/shaders/basic2Dfrag.spv", FusionApp::GetApp());
-		Pipe = new GraphicsPipeline(FusionApp::GetApp(), FX, VB);
+		Pipe = new GraphicsPipeline(FusionApp::GetApp(), FX, VB,tex1);
 		FusionApp::GetApp()->SetPipe(Pipe);
 	}
 	GraphicsPipeline * GetPipe() {

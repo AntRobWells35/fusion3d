@@ -10,7 +10,7 @@ class GraphicsPipeline
 {
 public:
 	GraphicsPipeline();
-	GraphicsPipeline(FusionApp * app, Effect * fx, VertexBuffer *vb);
+	GraphicsPipeline(FusionApp * app, Effect * fx, VertexBuffer *vb, Texture2D * diff);
 	virtual ~GraphicsPipeline();
 	VkPipeline GetPipeline() {
 		return graphicsPipeline;
@@ -37,7 +37,13 @@ public:
 		colorBlendAttachment = {};
 		colorBlending = {};
 		pipelineLayoutInfo = {};
+		depthStencil = {};
 	}
+
+	VkPipelineDepthStencilStateCreateInfo * GetDepthStencil() {
+		return &depthStencil;
+	}
+
 	VkViewport * GetViewport() {
 		return &viewport;
 	}
@@ -77,12 +83,14 @@ private:
 	void createCommandBuffers();
 	FusionApp * App;
 	Effect * FX;
+	Texture2D * Diff;
 	VertexBuffer * VB;
 	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;
 	UniformBinder * binder;
 	VkViewport viewport;
 	VkRect2D scissor;
+	VkPipelineDepthStencilStateCreateInfo depthStencil;
 	VkPipelineViewportStateCreateInfo viewportState;
 	VkPipelineRasterizationStateCreateInfo rasterizer;
 	VkPipelineMultisampleStateCreateInfo multisampling;

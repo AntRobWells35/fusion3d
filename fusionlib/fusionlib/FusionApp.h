@@ -31,6 +31,7 @@ public:
 	FusionApp(int winWidth, int winHeight, string title, bool fullScreen);
 	virtual ~FusionApp();
 	void Run();
+	void createDepthResources();
 	virtual void InitApp() {};
 	virtual void UpdateApp() {};
 	virtual void RenderApp() {};
@@ -61,7 +62,9 @@ public:
 		return graphicsQueue;
 	}
 private:
-	
+	VkImage depthImage;
+	VkDeviceMemory depthImageMemory;
+	VkImageView depthImageView;
 	void createSyncObjects();
 	GraphicsPipeline *Pipe;
 	void DrawFrame();

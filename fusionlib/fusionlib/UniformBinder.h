@@ -4,7 +4,7 @@
 class UniformBinder
 {
 public:
-	UniformBinder(int count, vector<UniformBuffer *> ubuf, VkDescriptorSetLayout layout);
+	UniformBinder(int count, vector<UniformBuffer *> ubuf, VkDescriptorSetLayout layout, Texture2D * diff);
 	virtual ~UniformBinder();
 	void Update();
 	std::vector<VkDescriptorSet> GetSets() {
