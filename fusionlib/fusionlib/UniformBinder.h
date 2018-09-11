@@ -6,6 +6,7 @@ class UniformBinder
 public:
 	UniformBinder(int count, vector<UniformBuffer *> ubuf, VkDescriptorSetLayout layout);
 	virtual ~UniformBinder();
+	void Update();
 	std::vector<VkDescriptorSet> GetSets() {
 		return descriptorSets;
 	}
@@ -15,7 +16,8 @@ private:
 	VkDescriptorPoolSize poolSize;
 	VkDescriptorPoolCreateInfo poolInfo;
 	std::vector<VkDescriptorSet> descriptorSets;
-
+	int size;
+	vector<UniformBuffer *> bufs;
 };
 
 

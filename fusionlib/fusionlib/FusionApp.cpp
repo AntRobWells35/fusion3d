@@ -724,6 +724,30 @@ void FusionApp::RunApp()
 	while (!glfwWindowShouldClose(Win)) {
 		glfwPollEvents();
 
+		std::vector<UniformBuffer *> uni = Pipe->GetUniBuf();
+
+
+		for (int i = 0; i < uni.size(); i++) {
+		//	cout << "Reseted " << i << endl;
+			ModelViewProj mvp = {};
+
+			//	test.model = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
+			mvp.model = glm::rotate(glm::mat4(1.0f), glm::radians(40.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			mvp.proj = glm::ortho<float>(-2.0f, 1.0f, -1.0f, 1.0f, -1, 1);
+			mvp.view = glm::mat4(1.0f);
+
+
+			//uni[i] = new MemBuffer(sizeof(ModelViewProj), &test, false);
+			//uni[i]->MakeUniformBuffer();
+
+			uni[i]->Set(&mvp, sizeof(mvp));
+
+		}
+
+
+
+	//	cout << "Run!" << endl;
+
 		DrawFrame();
 
 		UpdateApp();

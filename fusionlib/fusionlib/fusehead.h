@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Texture2D.h"
 #include "Uniforms.h"
 #include "UniformBuffer.h"
 #include "UniformBinder.h"

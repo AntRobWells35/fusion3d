@@ -11,6 +11,20 @@ GpuChain::~GpuChain()
 {
 }
 
+void GpuChain::Run() {
+
+	VkSubmitInfo submitInfo = {};
+	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	submitInfo.commandBufferCount = 1;
+	submitInfo.pCommandBuffers = &buffer;
+
+	vkQueueSubmit(FApp->GetGraphicsQueue(), 1, &submitInfo, VK_NULL_HANDLE);
+	vkQueueWaitIdle(FApp->GetGraphicsQueue());
+
+	vkFreeCommandBuffers(AppDev, FApp->GetComPool(), 1, &buffer);
+
+}
+
 void GpuChain::Copy(MemBuffer *src, MemBuffer *dst) {
 	VkCommandBufferAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -47,6 +61,31 @@ void GpuChain::Copy(MemBuffer *src, MemBuffer *dst) {
 	vkQueueWaitIdle(FusionApp::GetApp()->GetGraphicsQueue());
 
 	vkFreeCommandBuffers(FusionApp::GetApp()->GetDevice(), FusionApp::GetApp()->GetComPool(), 1, &commandBuffer);
+
+}
+
+void GpuChain::BeginBufferSingle() {
+
+	VkCommandBufferAllocateInfo allocInfo = {};
+	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+	allocInfo.commandPool = FApp->GetCommandPool();
+	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+	allocInfo.commandBufferCount = 1;
+
+	if (vkAllocateCommandBuffers(FApp->GetDevice(), &allocInfo, &buffer) != VK_SUCCESS) {
+		throw std::runtime_error("failed to allocate command buffers!");
+	}
+	else {
+		cout << "Allocated command buffers" << endl;
+	}
+
+	VkCommandBufferBeginInfo beginInfo = {};
+	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+	beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+
+	if (vkBeginCommandBuffer(buffer, &beginInfo) != VK_SUCCESS) {
+		throw std::runtime_error("failed to begin recording command buffer!");
+	}
 
 }
 
@@ -147,4 +186,10 @@ void GpuChain::EndBuffer() {
 	else {
 		cout << "Recorded command buffer end" << endl;
 	}
+}
+
+void GpuChain::EndBufferSingle() {
+
+	vkEndCommandBuffer(buffer);
+
 }

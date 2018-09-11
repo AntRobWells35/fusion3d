@@ -10,9 +10,9 @@ void MemBuffer::MakeUniformBuffer() {
 	if (!gpuMem) {
 		Create(Size, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT , VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, buffer, devMem);
 		void* data1;
-		vkMapMemory(FusionApp::GetApp()->GetDevice(), devMem, 0, Size, 0, &data1);
-		memcpy(data1, rawData, (size_t)Size);
-		vkUnmapMemory(FusionApp::GetApp()->GetDevice(), devMem);
+	//	vkMapMemory(FusionApp::GetApp()->GetDevice(), devMem, 0, Size, 0, &data1);
+	//	memcpy(data1, rawData, (size_t)Size);
+	//	vkUnmapMemory(FusionApp::GetApp()->GetDevice(), devMem);
 	}
 	else {
 	//	Create(Size, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, buffer, devMem);
@@ -46,6 +46,28 @@ void MemBuffer::MakeIndexBuffer() {
 	}
 }
 
+void MemBuffer::MakeImageBuffer() {
+
+	if (!gpuMem) {
+		Create(Size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, buffer, devMem);
+		void* data;
+		vkMapMemory(AppDev, devMem, 0,Size, 0, &data);
+		memcpy(data, rawData, static_cast<size_t>(Size));
+		vkUnmapMemory(AppDev, devMem);
+	}
+	else {
+
+	}
+
+}
+
+void MemBuffer::Set(void * data)
+{
+	void* data1;
+	vkMapMemory(FusionApp::GetApp()->GetDevice(), devMem, 0, Size, 0, &data1);
+	memcpy(data1, data, (size_t)Size);
+	vkUnmapMemory(FusionApp::GetApp()->GetDevice(), devMem);
+}
 
 MemBuffer::MemBuffer(int size,void *data,bool gpu)
 {

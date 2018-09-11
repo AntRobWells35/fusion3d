@@ -65,11 +65,15 @@ public:
 	vector<GpuChain *> GetGpus() {
 		return Gpus;
 	}
+	std::vector<UniformBuffer *> GetUniBuf() {
+		return UniBuf;
+	}
 private:
 	void Setup();
 	std::vector<VkFramebuffer> swapChainFramebuffers;
 	std::vector<GpuChain *> Gpus;
 	std::vector<MemBuffer *> Uniforms;
+	std::vector<UniformBuffer *> UniBuf;
 	void createCommandBuffers();
 	FusionApp * App;
 	Effect * FX;

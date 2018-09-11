@@ -106,7 +106,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Dev\Git\fusion3d_1\fusionlib\fusionlib;C:\dev\sdk\vulkan\1.1.82.1\Include;C:\Dev\SDK\glm;C:\dev\sdk\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Dev\SDK\stb;C:\Dev\Git\fusion3d_1\fusionlib\fusionlib;C:\dev\sdk\vulkan\1.1.82.1\Include;C:\Dev\SDK\glm;C:\dev\sdk\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

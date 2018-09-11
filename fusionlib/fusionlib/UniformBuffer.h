@@ -14,6 +14,7 @@ public:
 	MemBuffer * GetBuf() {
 		return UBuf;
 	}
+	void Set(void *buf, int size);
 private:
 	VkDescriptorSetLayout descriptorSetLayout;
 	MemBuffer * UBuf;

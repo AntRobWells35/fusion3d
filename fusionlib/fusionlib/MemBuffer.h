@@ -9,6 +9,7 @@ public:
 	void MakeVertexBuffer();
 	void MakeIndexBuffer();
 	void MakeUniformBuffer();
+	void MakeImageBuffer();
 	virtual ~MemBuffer();
 	VkBuffer GetBuffer() {
 		return buffer;
@@ -19,6 +20,7 @@ public:
 	VkDeviceSize GetSize() {
 		return Size;
 	}
+	void Set(void * data);
 private:
 
 	void Create(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);

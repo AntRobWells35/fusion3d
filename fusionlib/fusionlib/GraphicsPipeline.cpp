@@ -26,8 +26,8 @@ void GraphicsPipeline::Setup() {
 	for (int i = 0; i < swapChainFramebuffers.size(); i++) {
 
 		ModelViewProj test = {};
-	//	test.model = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
-		test.model = glm::rotate(glm::mat4(1.0f), glm::radians(50.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		test.model = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
+		test.model = glm::rotate(glm::mat4(1.0f), glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		test.proj = glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -1, 1);
 		test.view = glm::mat4(1.0f);
 
@@ -40,6 +40,26 @@ void GraphicsPipeline::Setup() {
 		uni[i] = new UniformBuffer(&test,sizeof(test));
 
 	}
+
+
+	for (int i = 0; i < uni.size(); i++) {
+		cout << "Reseted " << i << endl;
+		ModelViewProj mvp = {};
+		//	test.model = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
+		mvp.model = glm::rotate(glm::mat4(1.0f), glm::radians(40.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		mvp.proj = glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -1, 1);
+		mvp.view = glm::mat4(1.0f);
+
+
+		//uni[i] = new MemBuffer(sizeof(ModelViewProj), &test, false);
+		//uni[i]->MakeUniformBuffer();
+
+		uni[i]->Set(&mvp, sizeof(mvp));
+
+	}
+
+	UniBuf = uni;
+
 
 	VkDescriptorSetLayoutBinding uboLayoutBinding = {};
 	uboLayoutBinding.binding = 0;
@@ -61,13 +81,14 @@ void GraphicsPipeline::Setup() {
 		cout << "Created." << endl;
 	}
 
-	 binder = new UniformBinder(swapChainFramebuffers.size(), uni, desLay);
+
 	
 
 	Common::SetupPipeline(this, uni,desLay);
 	Common::BindShadersToPipeline(this, FX);
 
-	
+	binder = new UniformBinder(swapChainFramebuffers.size(), uni, desLay);
+	binder->Update();
 
 }
 

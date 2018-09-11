@@ -5,6 +5,7 @@
 UniformBinder::UniformBinder(int count, vector<UniformBuffer *>ubuf, VkDescriptorSetLayout layout)
 {
 
+	bufs = ubuf;
 	VkDescriptorPoolSize poolSize = {};
 	poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 	poolSize.descriptorCount = count;
@@ -59,9 +60,32 @@ UniformBinder::UniformBinder(int count, vector<UniformBuffer *>ubuf, VkDescripto
 		vkUpdateDescriptorSets(AppDev, 1, &descriptorWrite, 0, nullptr);
 
 	}
-
+	size = count;
 }
 
+void UniformBinder::Update() {
+
+	for (size_t i = 0; i < size; i++) {
+		VkDescriptorBufferInfo bufferInfo = {};
+		bufferInfo.buffer = bufs[i]->GetBuf()->GetBuffer();
+		bufferInfo.offset = 0;
+		bufferInfo.range = bufs[i]->GetBuf()->GetSize();
+
+		VkWriteDescriptorSet descriptorWrite = {};
+		descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+		descriptorWrite.dstSet = descriptorSets[i];
+		descriptorWrite.dstBinding = 0;
+		descriptorWrite.dstArrayElement = 0;
+		descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+		descriptorWrite.descriptorCount = 1;
+		descriptorWrite.pBufferInfo = &bufferInfo;
+		descriptorWrite.pImageInfo = nullptr; // Optional
+		descriptorWrite.pTexelBufferView = nullptr; // Optional
+		vkUpdateDescriptorSets(AppDev, 1, &descriptorWrite, 0, nullptr);
+
+	}
+
+}
 
 UniformBinder::~UniformBinder()
 {

@@ -19,6 +19,9 @@ UniformBuffer::UniformBuffer(void * buf, int size)
 
 }
 
+void UniformBuffer::Set(void *buf, int size) {
+	UBuf->Set(buf);
+}
 
 UniformBuffer::~UniformBuffer()
 {
