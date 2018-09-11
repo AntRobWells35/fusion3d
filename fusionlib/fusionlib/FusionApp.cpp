@@ -276,6 +276,7 @@ void FusionApp::recreateSwapChain() {
 	createRenderpass();
 	//createGraphicsPipeline();
 	Pipe->Recreate();
+	createDepthResources();
 	createFrameBuffers();
 	//createCommandBuffers();
 	Pipe->CreateBuffers();
