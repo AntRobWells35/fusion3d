@@ -11,6 +11,9 @@ public:
 	virtual ~GpuChain();
 	void BeginBuffer();
 	void BeginBufferSingle();
+	void CopyBuffer(MemBuffer *src, MemBuffer * dst);
+	void CopyBufferToImage(MemBuffer * src, VkImage img, int w, int h);
+	void TransistImage(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
 	void Copy(MemBuffer *src, MemBuffer *dst);
 	void BeginRender(VkFramebuffer * fb, GraphicsPipeline *gp);
 	void Render(VertexBuffer *vb);

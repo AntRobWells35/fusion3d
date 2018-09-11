@@ -56,6 +56,24 @@ void createImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling
 	}
 
 	vkBindImageMemory(AppDev, image, imageMemory, 0);
+
+	
+}
+
+void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout) {
+	
+	//VkCommandBuffer commandBuffer = beginSingleTimeCommands();
+
+	GpuChain * tg = new GpuChain();
+
+	tg->BeginBufferSingle();
+
+
+	
+	tg->EndBufferSingle();
+	tg->Run();
+
+	
 }
 
 
@@ -80,6 +98,36 @@ Texture2D::Texture2D(string path)
 	auto dm = memBuf->GetDevMem();
 	
 	createImage(texWidth, texHeight, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, img, dm);
+
+
+	//transitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+	//copyBufferToImage(stagingBuffer, textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
+	//transitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+
+
+
+	GpuChain * tC = new GpuChain();
+	tC->BeginBufferSingle();
+	tC->TransistImage(img, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+	tC->EndBufferSingle();
+	tC->Run();
+
+	GpuChain * c2 = new GpuChain();
+	c2->BeginBufferSingle();
+	c2->CopyBufferToImage(memBuf, img, texWidth, texHeight);
+	c2->EndBufferSingle();
+	c2->Run();
+
+	c2 = new GpuChain();
+	c2->BeginBufferSingle();
+	c2->TransistImage(img, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+	c2->EndBufferSingle();
+	c2->Run();
+
+	delete memBuf;
+
+
+
 }
 
 
