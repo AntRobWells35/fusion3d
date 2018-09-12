@@ -1,0 +1,5 @@
+C:\Dev\Git\fusion3d_1\fusionnet\fusion3dnet\bin\Debug\fusion3dnet.dll
+C:\Dev\Git\fusion3d_1\fusionnet\fusion3dnet\bin\Debug\fusion3dnet.pdb
+C:\Dev\Git\fusion3d_1\fusionnet\fusion3dnet\obj\Debug\fusion3dnet.csproj.CoreCompileInputs.cache
+C:\Dev\Git\fusion3d_1\fusionnet\fusion3dnet\obj\Debug\fusion3dnet.dll
+C:\Dev\Git\fusion3d_1\fusionnet\fusion3dnet\obj\Debug\fusion3dnet.pdb

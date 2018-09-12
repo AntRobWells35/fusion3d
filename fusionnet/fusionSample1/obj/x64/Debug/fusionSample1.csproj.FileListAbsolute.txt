@@ -1,0 +1,10 @@
+C:\Dev\Git\fusion3d_1\fusionnet\fusionSample1\bin\x64\Debug\fusionSample1.exe.config
+C:\Dev\Git\fusion3d_1\fusionnet\fusionSample1\bin\x64\Debug\fusionSample1.exe
+C:\Dev\Git\fusion3d_1\fusionnet\fusionSample1\bin\x64\Debug\fusionSample1.pdb
+C:\Dev\Git\fusion3d_1\fusionnet\fusionSample1\bin\x64\Debug\fusion3dnet.dll
+C:\Dev\Git\fusion3d_1\fusionnet\fusionSample1\bin\x64\Debug\fusion3dnet.pdb
+C:\Dev\Git\fusion3d_1\fusionnet\fusionSample1\obj\x64\Debug\fusionSample1.csprojAssemblyReference.cache
+C:\Dev\Git\fusion3d_1\fusionnet\fusionSample1\obj\x64\Debug\fusionSample1.csproj.CoreCompileInputs.cache
+C:\Dev\Git\fusion3d_1\fusionnet\fusionSample1\obj\x64\Debug\fusionSample1.csproj.CopyComplete
+C:\Dev\Git\fusion3d_1\fusionnet\fusionSample1\obj\x64\Debug\fusionSample1.exe
+C:\Dev\Git\fusion3d_1\fusionnet\fusionSample1\obj\x64\Debug\fusionSample1.pdb
