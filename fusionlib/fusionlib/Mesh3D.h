@@ -3,75 +3,14 @@ class Mesh3D
 {
 public:
 	Mesh3D();
+	Mesh3D(int verts, int indices);
 	virtual ~Mesh3D();
-	void SetTest() {
-		VB = new VertexBuffer(4, 6);
-		VB2 = new VertexBuffer(4, 6);
+	VertexBuffer * GetVB() {
+		return VB;
+	}
+	void Finalize() {
 		
-		Vertex v1, v2, v3, v4;
-
-		v1.pos = { -0.5f,-0.5f,0.0f };
-		v2.pos = { 0.5f,-0.5f,0.0f };
-		v3.pos = { 0.5f,0.5f,0.0f };
-		v4.pos = { -0.5f,0.5f,0.0f };
-		v1.col = { 1,1,1 };
-		v2.col = { 0.5,0.1,0.1 };
-		v3.col = { 1,1,1 };
-		v4.col = { 1,1,1 };
-		v1.uv0 = { 0,0,0 };
-		v2.uv0 = { 1,0,0 };
-		v3.uv0 = { 1,1,0 };
-		v4.uv0 = { 0,1,0 };
-
-
-
-
-		VB->SetVertex(0, v1);
-		VB->SetVertex(1, v2);
-		VB->SetVertex(2, v3);
-		VB->SetVertex(3, v4);
-
-		VB->SetIndex(0, 0);
-		VB->SetIndex(1, 1);
-		VB->SetIndex(2, 2);
-
-		VB->SetIndex(3, 2);
-		VB->SetIndex(4, 3);
-		VB->SetIndex(5, 0);
-
-		Vertex v11, v12, v13, v14;
-
-		v11.pos = { 0.8f,-0.5f,0.0f };
-		v12.pos = { 0.9f,-0.5f,0.0f };
-		v13.pos = { 0.9f,0.5f,0.0f };
-		v14.pos = { 0.8f,0.5f,0.0f };
-		v11.col = { 1,1,1 };
-		v12.col = { 0.5,0.1,0.1 };
-		v13.col = { 1,1,1 };
-		v14.col = { 1,1,1 };
-		v11.uv0 = { 0,0,0 };
-		v12.uv0 = { 1,0,0 };
-		v13.uv0 = { 1,1,0 };
-		v14.uv0 = { 0,1,0 };
-
-
-
-		VB2->SetVertex(0, v11);
-		VB2->SetVertex(1, v12);
-		VB2->SetVertex(2, v13);
-		VB2->SetVertex(3, v14);
-
-		VB2->SetIndex(0, 0);
-		VB2->SetIndex(1, 1);
-		VB2->SetIndex(2, 2);
-
-		VB2->SetIndex(3, 2);
-		VB2->SetIndex(4, 3);
-		VB2->SetIndex(5, 0);
-
-
 		VB->CreateBuffer();
-		VB2->CreateBuffer();
 		Texture2D * tex1 = new Texture2D("c:/media/tex1.jpg");
 
 		FX = new Effect("C:/Dev/Git/fusion3d_1/fusionlib/x64/Debug/shaders/basic2Dvert.spv", "C:/Dev/Git/fusion3d_1/fusionlib/x64/Debug/shaders/basic2Dfrag.spv", FusionApp::GetApp());

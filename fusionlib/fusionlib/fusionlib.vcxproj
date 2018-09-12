@@ -104,17 +104,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Dev\SDK\objloader;C:\Dev\SDK\stb;C:\dev\sdk\glfw\include;C:\dev\sdk\glm;C:\dev\sdk\vulkan\1.1.82.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Dev\SDK\Assimp\include;C:\Dev\SDK\objloader;C:\Dev\SDK\stb;C:\dev\sdk\glfw\include;C:\dev\sdk\glm;C:\dev\sdk\vulkan\1.1.82.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>C:\dev\sdk\glfw\lib-vc2015;C:\dev\sdk\vulkan\1.1.82.1\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Dev\SDK\Assimp\lib\x64;C:\dev\sdk\glfw\lib-vc2015;C:\dev\sdk\vulkan\1.1.82.1\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="fusehead.h" />
     <ClInclude Include="FusionApp.h" />
     <ClInclude Include="Geo.h" />
@@ -187,6 +188,7 @@
   <ItemGroup>
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="FusionApp.cpp" />
     <ClCompile Include="GpuChain.cpp" />
     <ClCompile Include="GraphicsPipeline.cpp" />

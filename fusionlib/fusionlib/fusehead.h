@@ -17,6 +17,7 @@
 #include "Effect.h"
 #include "VertexBuffer.h"
 #include "Mesh3D.h"
+#include "Entity.h"
 #include "ModelImport.h"
 
 #define FApp FusionApp::GetApp()

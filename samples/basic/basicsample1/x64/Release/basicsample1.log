@@ -1,50 +1,7 @@
 ﻿  pch.cpp
   basicsample1.cpp
 c:\dev\git\fusion3d_1\fusionlib\fusionlib\stdafx.h(18): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-fusionlib.lib(FusionApp.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(FusionApp.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(FusionApp.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:ICF' specification
-fusionlib.lib(VertexBuffer.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(VertexBuffer.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(Texture2D.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(Texture2D.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(Effect.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(Effect.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(GraphicsPipeline.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(GraphicsPipeline.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(ModelImport.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(ModelImport.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(Mesh3D.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(Mesh3D.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(UniformBuffer.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(UniformBuffer.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(stdafx.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(stdafx.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(MemBuffer.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(MemBuffer.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(GpuChain.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(GpuChain.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(UniformBinder.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(UniformBinder.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-fusionlib.lib(Common.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '2' doesn't match value '0' in basicsample1.obj
-fusionlib.lib(Common.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MDd_DynamicDebug' doesn't match value 'MD_DynamicRelease' in basicsample1.obj
-LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
-fusionlib.lib(Common.obj) : error LNK2001: unresolved external symbol __imp__invalid_parameter
-fusionlib.lib(GraphicsPipeline.obj) : error LNK2001: unresolved external symbol __imp__invalid_parameter
-fusionlib.lib(ModelImport.obj) : error LNK2001: unresolved external symbol __imp__invalid_parameter
-fusionlib.lib(GpuChain.obj) : error LNK2001: unresolved external symbol __imp__invalid_parameter
-fusionlib.lib(UniformBinder.obj) : error LNK2001: unresolved external symbol __imp__invalid_parameter
-fusionlib.lib(FusionApp.obj) : error LNK2001: unresolved external symbol __imp__invalid_parameter
-fusionlib.lib(VertexBuffer.obj) : error LNK2001: unresolved external symbol __imp__invalid_parameter
-fusionlib.lib(Texture2D.obj) : error LNK2001: unresolved external symbol __imp__invalid_parameter
-fusionlib.lib(Effect.obj) : error LNK2001: unresolved external symbol __imp__invalid_parameter
-fusionlib.lib(Common.obj) : error LNK2001: unresolved external symbol __imp__CrtDbgReport
-fusionlib.lib(GraphicsPipeline.obj) : error LNK2001: unresolved external symbol __imp__CrtDbgReport
-fusionlib.lib(ModelImport.obj) : error LNK2001: unresolved external symbol __imp__CrtDbgReport
-fusionlib.lib(GpuChain.obj) : error LNK2001: unresolved external symbol __imp__CrtDbgReport
-fusionlib.lib(UniformBinder.obj) : error LNK2001: unresolved external symbol __imp__CrtDbgReport
-fusionlib.lib(FusionApp.obj) : error LNK2001: unresolved external symbol __imp__CrtDbgReport
-fusionlib.lib(VertexBuffer.obj) : error LNK2001: unresolved external symbol __imp__CrtDbgReport
-fusionlib.lib(Texture2D.obj) : error LNK2001: unresolved external symbol __imp__CrtDbgReport
-fusionlib.lib(Effect.obj) : error LNK2001: unresolved external symbol __imp__CrtDbgReport
-C:\Dev\Git\fusion3d_1\fusionlib\x64\Release\basicsample1.exe : fatal error LNK1120: 2 unresolved externals
+  Generating code
+  All 2117 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  basicsample1.vcxproj -> C:\Dev\Git\fusion3d_1\fusionlib\x64\Release\basicsample1.exe
