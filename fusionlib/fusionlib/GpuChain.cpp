@@ -247,7 +247,7 @@ void GpuChain::Render(VertexBuffer *vb, UniformBinder *binder,VkPipelineLayout l
 
 	VkBuffer indexBuffer = vb->GetIndexBuf();
 
-	vkCmdBindIndexBuffer(buffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+	vkCmdBindIndexBuffer(buffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
 
 
 	vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0, 1, &set, 0, nullptr);

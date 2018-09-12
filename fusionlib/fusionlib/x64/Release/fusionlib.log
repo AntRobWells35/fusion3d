@@ -1,2 +1,26 @@
 ﻿  stdafx.cpp
-  fusionlib.vcxproj -> C:\Dev\Git\fusion3d\fusionlib\x64\Release\fusionlib.lib
+c:\dev\git\fusion3d_1\fusionlib\fusionlib\stdafx.h(18): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Common.cpp
+  Effect.cpp
+  FusionApp.cpp
+  GpuChain.cpp
+  GraphicsPipeline.cpp
+c:\dev\git\fusion3d_1\fusionlib\fusionlib\graphicspipeline.cpp(103): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  GraphNode.cpp
+  GraphRenderer.cpp
+  GraphScene.cpp
+  MemBuffer.cpp
+c:\dev\git\fusion3d_1\fusionlib\fusionlib\membuffer.cpp(12): warning C4101: 'data1': unreferenced local variable
+  Mesh3D.cpp
+  ModelImport.cpp
+  MultiPassRenderer.cpp
+  Texture2D.cpp
+c:\dev\git\fusion3d_1\fusionlib\fusionlib\texture2d.cpp(93): warning C4244: 'argument': conversion from 'VkDeviceSize' to 'int', possible loss of data
+  UniformBinder.cpp
+  UniformBuffer.cpp
+  VertexBuffer.cpp
+c:\dev\git\fusion3d_1\fusionlib\fusionlib\vertexbuffer.cpp(32): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\dev\git\fusion3d_1\fusionlib\fusionlib\vertexbuffer.cpp(35): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\dev\git\fusion3d_1\fusionlib\fusionlib\vertexbuffer.cpp(54): warning C4244: 'argument': conversion from 'VkDeviceSize' to 'int', possible loss of data
+c:\dev\git\fusion3d_1\fusionlib\fusionlib\vertexbuffer.cpp(58): warning C4244: 'argument': conversion from 'VkDeviceSize' to 'int', possible loss of data
+LINK : fatal error LNK1181: cannot open input file 'vulkan-1.lib'

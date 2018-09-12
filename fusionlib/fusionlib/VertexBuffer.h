@@ -8,13 +8,13 @@ public:
 	VertexBuffer(int numVertices, int numIndices);
 	virtual ~VertexBuffer();
 	void SetVertex(int id, Vertex vertex);
-	void SetIndex(int id, uint16_t index);
+	void SetIndex(int id, uint32_t index);
 	void CreateIndexBuffer();
 	void CreateBuffer();
 	std::vector<Vertex> GetVertices() {
 		return vertices;
 	}
-	std::vector<uint16_t> GetIndices() {
+	std::vector<uint32_t> GetIndices() {
 		return indices;
 	}
 	VkBuffer GetBuf() {
@@ -32,7 +32,7 @@ public:
 
 private:
 	std::vector<Vertex> vertices;
-	std::vector<uint16_t> indices;
+	std::vector<uint32_t> indices;
 
 	MemBuffer * vertexMem;
 	MemBuffer * hardVertexMem;

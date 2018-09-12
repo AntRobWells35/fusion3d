@@ -20,7 +20,7 @@ void VertexBuffer::SetVertex(int id, Vertex vertex)
 	vertices[id] = vertex;
 }
 
-void VertexBuffer::SetIndex(int id, uint16_t index)
+void VertexBuffer::SetIndex(int id, uint32_t index)
 {
 	indices[id] = index;
 }
