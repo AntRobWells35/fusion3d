@@ -11,11 +11,12 @@ public:
 	void Finalize() {
 		
 		VB->CreateBuffer();
-		Texture2D * tex1 = new Texture2D("c:/media/tex1.jpg");
+		Texture2D * tex1 = new Texture2D("c:/media/chalet.jpg");
 
 		FX = new Effect("C:/Dev/Git/fusion3d_1/fusionlib/x64/Debug/shaders/basic2Dvert.spv", "C:/Dev/Git/fusion3d_1/fusionlib/x64/Debug/shaders/basic2Dfrag.spv", FusionApp::GetApp());
 		Pipe = new GraphicsPipeline(FusionApp::GetApp(), FX, VB,tex1);
 		FusionApp::GetApp()->SetPipe(Pipe);
+		cout << "Finalized mesh" << endl;
 	}
 	GraphicsPipeline * GetPipe() {
 		return Pipe;

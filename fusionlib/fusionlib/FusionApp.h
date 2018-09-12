@@ -3,8 +3,9 @@
 #include "stdafx.h"
 
 class GraphicsPipeline;
-
+class GraphScene;
 //#include <string>
+
 
 
 //using namespace std;
@@ -61,7 +62,12 @@ public:
 	VkQueue GetGraphicsQueue() {
 		return graphicsQueue;
 	}
+	void SetScene(GraphScene * g)
+	{
+		Graph = g;
+	}
 private:
+	GraphScene * Graph;
 	VkImage depthImage;
 	VkDeviceMemory depthImageMemory;
 	VkImageView depthImageView;

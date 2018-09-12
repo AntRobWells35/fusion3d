@@ -957,25 +957,36 @@ void FusionApp::createSyncObjects() {
 		}
 	}
 }
-
+float av = 0.0f;
 void FusionApp::RunApp()
 {
+
+	
+
+
 	InitApp();
 	ResizeApp();
+
+	Pipe = Graph->GetRoot()->GetSub(0)->GetMesh(0)->GetPipe();
+
+
 	while (!glfwWindowShouldClose(Win)) {
 		glfwPollEvents();
 
+		
 		std::vector<UniformBuffer *> uni = Pipe->GetUniBuf();
 
 
 		for (int i = 0; i < uni.size(); i++) {
 		//	cout << "Reseted " << i << endl;
 			ModelViewProj mvp = {};
-
+			av = av + 0.01f;
 			//	test.model = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
-			mvp.model = glm::rotate(glm::mat4(1.0f), glm::radians(40.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-			mvp.proj = glm::ortho<float>(-2.0f, 1.0f, -1.0f, 1.0f, -1, 1);
+			mvp.model = glm::rotate(glm::mat4(1.0f), glm::radians(av), glm::vec3(1.0f, 1.0f, 0.0f));
+			mvp.proj = glm::perspective(glm::radians(45.0f), 512.0f / 512.0f, 0.01f, 10000.0f);
 			mvp.view = glm::mat4(1.0f);
+			mvp.view = glm::translate(mvp.view, glm::vec3(0, 0, -5));
+
 
 
 			//uni[i] = new MemBuffer(sizeof(ModelViewProj), &test, false);

@@ -115,15 +115,17 @@ void set_float4(float f[4], float a, float b, float c, float d)
 void CopyNode(Entity * ent,aiNode * node)
 {
 
+	cout << "Importing:" << node->mName.C_Str() << endl;
 
+	cout << "  Meshes:" << node->mNumMeshes << endl;
 
 	for (int i = 0; i < node->mNumMeshes; i++) {
 			
-		
+	
 	
 		aiMesh * m1 = scene->mMeshes[node->mMeshes[i]];
 
-		Mesh3D * m = new Mesh3D(m1->mNumVertices, m1->mNumFaces);
+		Mesh3D * m = new Mesh3D(m1->mNumVertices, m1->mNumFaces*3);
 
 		VertexBuffer * vb = m->GetVB();
 
@@ -159,7 +161,7 @@ void CopyNode(Entity * ent,aiNode * node)
 
 			nv.pos = { pos.x,pos.y,pos.z };
 			nv.norm = { norm.x,norm.y,norm.z };
-			nv.uv0 = { uv0.x,uv0.y,uv0.z };
+			nv.uv0 = { uv0.x,1.0f-uv0.y,uv0.z };
 			nv.binorm = { bi.x,bi.y,bi.z };
 			nv.tangent = { tan.x,tan.y,tan.z };
 
@@ -168,7 +170,7 @@ void CopyNode(Entity * ent,aiNode * node)
 		}
 
 		int ii = 0;
-		for (int t = 0; i < m1->mNumFaces; t++) {
+		for (int t = 0; t< m1->mNumFaces; t++) {
 
 			aiFace * face = &m1->mFaces[t];
 
@@ -186,11 +188,17 @@ void CopyNode(Entity * ent,aiNode * node)
 
 
 		}
+		vb->CreateBuffer();
+		ent->AddMesh(m);
+		m->Finalize();
 	}
 
 	for (int n = 0; n < node->mNumChildren; ++n)
 	{
+		
+		
 		Entity * newent = new Entity();
+		ent->AddSub(newent);
 		CopyNode(newent,node->mChildren[n]);
 
 	}
