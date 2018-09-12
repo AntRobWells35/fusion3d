@@ -16,7 +16,14 @@ public:
 	Entity * GetSub(int index) {
 		return sub[index];
 	}
-	
+	int SubCount() {
+		return sub.size();
+	}
+	int MeshCount()
+	{
+		return meshes.size();
+	}
+
 private:
 	std::vector<Entity *> sub;
 	std::vector<Mesh3D *> meshes;

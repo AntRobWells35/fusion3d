@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 class Mesh3D;
-class Entity3D;
+class Entity;
 
 class ModelImport
 {

@@ -11,5 +11,28 @@ namespace fusion3dnet
     {
         [DllImport("fusiondll.dll")]
         public static extern void InitFusion(int w,int h,string title,bool full);
+
+        [DllImport("fusiondll.dll")]
+        public static extern IntPtr CreateEntity();
+
+        [DllImport("fusiondll.dll")]
+        public static extern IntPtr LoadEntity(string path);
+
+        [DllImport("fusiondll.dll")]
+        public static extern IntPtr CreateGraph();
+
+        [DllImport("fusiondll.dll")]
+        public static extern void GraphSetRoot(IntPtr graph, IntPtr ent);
+
+        [DllImport("fusiondll.dll")]
+        public static extern int EntitySubCount(IntPtr ent);
+
+        [DllImport("fusiondll.dll")]
+        public static extern IntPtr EntityGetMesh(IntPtr ent, int m);
+
+        [DllImport("fusiondll.dll")]
+        public static extern IntPtr EntityGetSub(IntPtr ent, int e);
+
+
     }
 }

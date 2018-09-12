@@ -8,6 +8,12 @@ public:
 	VertexBuffer * GetVB() {
 		return VB;
 	}
+	int VertexCount() {
+		return numVert;
+	}
+	int IndexCount() {
+		return numInd;
+	}
 	void Finalize() {
 		
 		VB->CreateBuffer();
@@ -26,5 +32,6 @@ private:
 	GraphicsPipeline *Pipe;
 	VertexBuffer * VB;
 	VertexBuffer * VB2;
+	int numVert, numInd;
 };
 
