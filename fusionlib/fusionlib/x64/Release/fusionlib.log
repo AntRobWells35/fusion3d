@@ -23,4 +23,4 @@ c:\dev\git\fusion3d_1\fusionlib\fusionlib\vertexbuffer.cpp(32): warning C4267: '
 c:\dev\git\fusion3d_1\fusionlib\fusionlib\vertexbuffer.cpp(35): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
 c:\dev\git\fusion3d_1\fusionlib\fusionlib\vertexbuffer.cpp(54): warning C4244: 'argument': conversion from 'VkDeviceSize' to 'int', possible loss of data
 c:\dev\git\fusion3d_1\fusionlib\fusionlib\vertexbuffer.cpp(58): warning C4244: 'argument': conversion from 'VkDeviceSize' to 'int', possible loss of data
-LINK : fatal error LNK1181: cannot open input file 'vulkan-1.lib'
+  fusionlib.vcxproj -> C:\Dev\Git\fusion3d_1\fusionlib\x64\Release\fusionlib.lib
