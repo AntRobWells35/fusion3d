@@ -15,5 +15,34 @@ namespace fusion3dnet.App
             dll.InitFusion(width, height, apptitle, fullscreen);
         }
 
+        public virtual void InitApp()
+        {
+
+        }
+
+        public virtual void UpdateApp()
+        {
+
+        }
+
+        public virtual void RenderApp()
+        {
+
+        }
+
+        public void Run()
+        {
+
+            InitApp();
+
+            while (true)
+            {
+                UpdateApp();
+                RenderApp();
+                System.Threading.Thread.Sleep(5);
+            }
+
+        }
+
     }
 }

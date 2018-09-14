@@ -66,6 +66,9 @@ public:
 	{
 		Graph = g;
 	}
+	void InitFusion();
+
+	
 private:
 	GraphScene * Graph;
 	VkImage depthImage;

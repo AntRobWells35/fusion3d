@@ -919,6 +919,19 @@ static void framebufferResizeCallback(GLFWwindow* window, int width, int height)
 	app->framebufferResized = true;
 }
 
+void FusionApp::InitFusion() {
+
+	glfwInit();
+
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+	Win = glfwCreateWindow(WinWidth, WinHeight, WinTitle.c_str(), nullptr, nullptr);
+	glfwSetWindowUserPointer(Win, this);
+	glfwSetFramebufferSizeCallback(Win, framebufferResizeCallback);
+	InitVulkan();
+
+}
+
 void FusionApp::Run() {
 
 	glfwInit();

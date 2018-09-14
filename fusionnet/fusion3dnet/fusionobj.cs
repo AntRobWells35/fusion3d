@@ -19,6 +19,11 @@ namespace fusion3dnet
         {
             Handle = handle;
         }
+
+        public fusionobj()
+        {
+            Handle = IntPtr.Zero;
+        }
         
 
     }

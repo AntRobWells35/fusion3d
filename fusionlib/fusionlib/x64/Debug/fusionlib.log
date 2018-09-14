@@ -1,5 +1,4 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\Preview\Community\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets(76,5): warning : The process cannot access the file 'c:\dev\git\fusion3d_1\fusionlib\x64\debug\fusionlib.pdb' because it is being used by another process.
-  stdafx.cpp
+﻿  stdafx.cpp
 c:\dev\git\fusion3d_1\fusionlib\fusionlib\stdafx.h(18): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 c:\dev\git\fusion3d_1\fusionlib\fusionlib\entity.h(20): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
 c:\dev\git\fusion3d_1\fusionlib\fusionlib\entity.h(24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data

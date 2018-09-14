@@ -60,9 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App\FusionApp.cs" />
+    <Compile Include="Data\Mesh3D.cs" />
     <Compile Include="dll.cs" />
     <Compile Include="fusionobj.cs" />
+    <Compile Include="Import\ModelImport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scene\GraphEntity.cs" />
     <Compile Include="Scene\GraphScene.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
